@@ -226,7 +226,7 @@ Parser::ParserResult Parser::natural_number()
 bool Parser::digit_excl_zero()
 {
     // TODO
-    if ( expect( terminal_symbol_t::TS_NON_ZERO_DIGIT ) )
+    if ( accept( terminal_symbol_t::TS_NON_ZERO_DIGIT ) )
         return true;
    
     return false;
