@@ -11,7 +11,7 @@
 #include <iomanip>
 #include <cassert>   // assert
 #include <cmath>     // pow
-#include "parser.h"
+#include "tokenizer.h"
 
 using value_type = long int;
 
@@ -96,7 +96,7 @@ std::vector<std::string> expressions =
     "       "
 };
 
-void print_msg( const Parser::ParserResult & result, std::string str )
+void print_msg( const Tokenizer::Result & result, std::string str )
 {
     std::string error_indicator( str.size()+1, ' ');
 
@@ -104,22 +104,22 @@ void print_msg( const Parser::ParserResult & result, std::string str )
     error_indicator[result.at_col] = '^';
     switch ( result.type )
     {
-        case Parser::ParserResult::UNEXPECTED_END_OF_EXPRESSION:
+        case Tokenizer::Result::UNEXPECTED_END_OF_EXPRESSION:
             std::cout << ">>> Unexpected end of input at column (" << result.at_col << ")!\n";
             break;
-        case Parser::ParserResult::ILL_FORMED_INTEGER:
+        case Tokenizer::Result::ILL_FORMED_INTEGER:
             std::cout << ">>> Ill formed integer at column (" << result.at_col << ")!\n";
             break;
-        case Parser::ParserResult::MISSING_TERM:
+        case Tokenizer::Result::MISSING_TERM:
             std::cout << ">>> Missing <term> at column (" << result.at_col << ")!\n";
             break;
-        case Parser::ParserResult::EXTRANEOUS_SYMBOL:
+        case Tokenizer::Result::EXTRANEOUS_SYMBOL:
             std::cout << ">>> Extraneous symbol after valid expression found at column (" << result.at_col << ")!\n";
             break;
-        case Parser::ParserResult::MISSING_CLOSING_PARENTHESIS:
+        case Tokenizer::Result::MISSING_CLOSING_PARENTHESIS:
             std::cout << ">>> Missing closing \")\" at column (" << result.at_col << ")!\n";
             break;
-        case Parser::ParserResult::INTEGER_OUT_OF_RANGE:
+        case Tokenizer::Result::INTEGER_OUT_OF_RANGE:
             std::cout << ">>> Integer constant out of range beginning at column (" << result.at_col << ")!\n";
             break;
         default:
@@ -135,7 +135,7 @@ void print_msg( const Parser::ParserResult & result, std::string str )
 int main()
 {
 
-    Parser my_parser; // Instancia um parser.
+    Tokenizer my_parser; // Instancia um parser.
     // Tentar analisar cada expressão da lista.
     for( const auto & expr : expressions )
     {
@@ -145,7 +145,7 @@ int main()
         std::cout << std::setfill('=') << std::setw(80) << "\n";
         std::cout << std::setfill(' ') << ">>> Parsing \"" << expr << "\"\n";
         // Se deu pau, imprimir a mensagem adequada.
-        if ( result.type != Parser::ParserResult::PARSER_OK )
+        if ( result.type != Tokenizer::Result::OK )
             print_msg( result, expr );
         else
             std::cout << ">>> Expression SUCCESSFULLY parsed!\n";
