@@ -214,8 +214,8 @@ Parser::ParserResult Parser::integer()
 Parser::ParserResult Parser::natural_number()
 {
     // TODO
-    auto test = digit_excl_zero();
-    if ( test.type == ParserResult::PARSER_OK )
+    auto result = digit_excl_zero();
+    if ( result )
     {
         return ParserResult( ParserResult::PARSER_OK );
 
@@ -225,23 +225,24 @@ Parser::ParserResult Parser::natural_number()
     }
 }
 
-Parser::ParserResult Parser::digit_excl_zero()
+//TS methods
+bool Parser::digit_excl_zero()
 {
     // TODO
     if ( expect( terminal_symbol_t::TS_NON_ZERO_DIGIT ) )
-        return ParserResult( ParserResult::PARSER_OK );
-    else 
-        return ParserResult( ParserResult::EXTRANEOUS_SYMBOL );
+        return true;
+   
+    return false;
 }
 
-Parser::ParserResult Parser::digit()
+bool Parser::digit()
 {
-    if ( (expect( terminal_symbol_t::TS_ZERO ) or
-          expect( terminal_symbol_t::TS_NON_ZERO_DIGIT )) )
+    if ( (accept( terminal_symbol_t::TS_ZERO ) or
+          accept( terminal_symbol_t::TS_NON_ZERO_DIGIT )) )
 
-        return ParserResult( ParserResult::PARSER_OK );
-    else 
-        return ParserResult( ParserResult::EXTRANEOUS_SYMBOL );
+        return true;
+    
+    return false;
 }
 
 /*!
