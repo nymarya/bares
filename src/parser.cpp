@@ -137,8 +137,8 @@ Parser::ParserResult Parser::expression()
             return ParserResult( ParserResult::EXTRANEOUS_SYMBOL,
                                 std::distance(expr.begin(), it_curr_symb));
         }
-
         result = term();
+        skip_ws();
         if ( result.type != ParserResult::PARSER_OK)
         {
             result.type = ParserResult::MISSING_TERM;
@@ -151,95 +151,53 @@ Parser::ParserResult Parser::expression()
 
 Parser::ParserResult Parser::term()
 {
-    // TODO
-    auto result = integer();
-    
-    return result;
+    skip_ws();
+    return integer();
 }
 
 Parser::ParserResult Parser::integer()
 {
     // TODO
     std::string num;
-    if ( expect(terminal_symbol_t::TS_ZERO) )
+    if ( accept(terminal_symbol_t::TS_ZERO) )
     {
         token_list.push_back( Token(num, Token::token_t::OPERAND) );
         return ParserResult( ParserResult::PARSER_OK );
     }    
-    else if ( expect(terminal_symbol_t::TS_MINUS) )
-    {
-        auto result = natural_number();
-        if ( result.type == ParserResult::PARSER_OK )
-        {
-            num.push_back('-');
-            num.push_back(*(it_curr_symb-1));
-            do
-            {
-                result = natural_number();
-                if (result.type == ParserResult::PARSER_OK)
-                    num.push_back(*(it_curr_symb-1));
-            }while (result.type == ParserResult::PARSER_OK);
-        }else 
-        {
-            return ParserResult( ParserResult::ILL_FORMED_INTEGER );
-        }
 
 
-        token_list.push_back( Token(num, Token::token_t::OPERAND) );
-        return ParserResult( ParserResult::PARSER_OK );
-    }
-    else 
-    {
-        ParserResult result;
-        do
-        {
-            result = natural_number();
-            if (result.type == ParserResult::PARSER_OK)
-                    num.push_back(*(it_curr_symb-1));
-        }while (result.type == ParserResult::PARSER_OK);
+    accept(terminal_symbol_t::TS_MINUS);
 
-        if ( num == "")
-            return ParserResult( ParserResult::EXTRANEOUS_SYMBOL );
-        token_list.push_back( Token(num, Token::token_t::OPERAND) );
-        return ParserResult( ParserResult::PARSER_OK );
-    }
-    
-    return ParserResult( ParserResult::ILL_FORMED_INTEGER );
-
+    return natural_number();
 }
 
 Parser::ParserResult Parser::natural_number()
 {
-    // TODO
-    auto result = digit_excl_zero();
-    if ( result )
-    {
-        return ParserResult( ParserResult::PARSER_OK );
 
-    }else 
-    {
-        return ParserResult( ParserResult::EXTRANEOUS_SYMBOL );
+    auto result = digit_excl_zero();
+    if( result) {
+    
+        while( result){
+            result = digit();
+        }
+
+        return ParserResult( ParserResult::PARSER_OK );
     }
+
+    return ParserResult( ParserResult::ILL_FORMED_INTEGER, std::distance( expr.begin(), it_curr_symb) );
 }
 
 //TS methods
 bool Parser::digit_excl_zero()
 {
-    // TODO
-    if ( accept( terminal_symbol_t::TS_NON_ZERO_DIGIT ) )
-        return true;
    
-    return false;
+    return accept( terminal_symbol_t::TS_NON_ZERO_DIGIT );
 }
 
 bool Parser::digit()
 {
-    if ( (accept( terminal_symbol_t::TS_ZERO ) or
-          accept( terminal_symbol_t::TS_NON_ZERO_DIGIT )) )
-
-        return true;
     
-    return false;
+    return (accept( terminal_symbol_t::TS_ZERO ) or digit_excl_zero() );
 }
 
 /*!
