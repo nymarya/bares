@@ -62,7 +62,7 @@ class Tokenizer
         std::vector< Token > get_tokens( void ) const;
 
         //==== Special methods
-        /// Constutor default.
+        /// Construtor default.
         Tokenizer() = default;
         ~Tokenizer() = default;
         /// Desligar cópia e atribuição.
