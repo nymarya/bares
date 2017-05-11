@@ -118,7 +118,7 @@ Parser::ParserResult Parser::expression()
     //validar um termo
     auto result = term();
     //resultado ok, pode vir +/- <term>
-    while ( result.type == ParserResult::PARSER_OK and ( not end_input()))
+    while ( result.type == ParserResult::PARSER_OK)
     {
         //pode vir o '+'
         if (expect(terminal_symbol_t::TS_PLUS))
@@ -126,6 +126,7 @@ Parser::ParserResult Parser::expression()
             // Token "+", Operator
             token_list.push_back( 
                 Token(token_str(terminal_symbol_t::TS_PLUS), Token::token_t::OPERATOR));
+
         }
         else if ( expect(terminal_symbol_t::TS_MINUS))
         {
@@ -134,11 +135,11 @@ Parser::ParserResult Parser::expression()
                 Token(token_str(terminal_symbol_t::TS_MINUS), Token::token_t::OPERATOR));
         }else
         {
-            return ParserResult( ParserResult::EXTRANEOUS_SYMBOL,
-                                std::distance(expr.begin(), it_curr_symb));
+            return result;
         }
+
+
         result = term();
-        skip_ws();
         if ( result.type != ParserResult::PARSER_OK)
         {
             result.type = ParserResult::MISSING_TERM;
@@ -228,6 +229,16 @@ Parser::parse( std::string e_ )
 
     // tentar validar a expressão
     result = expression();
+
+
+    if( result.type == ParserResult::PARSER_OK){
+
+        skip_ws();
+        if( not end_input()){
+            return ParserResult( ParserResult::EXTRANEOUS_SYMBOL, std::distance(expr.begin(), it_curr_symb));
+        }
+
+    }
     return result;
 }
 
