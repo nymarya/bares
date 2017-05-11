@@ -153,7 +153,18 @@ Parser::ParserResult Parser::expression()
 Parser::ParserResult Parser::term()
 {
     skip_ws();
-    return integer();
+    std::string::iterator it_begin =  it_curr_symb;
+    auto result =  integer();
+
+    std::string num;
+    num.insert(num.begin(), it_begin, it_curr_symb);
+
+    if( not num.empty() ){
+        token_list.push_back( 
+                   Token( num, Token::token_t::OPERATOR));
+    }
+
+    return result;
 }
 
 Parser::ParserResult Parser::integer()
@@ -230,7 +241,6 @@ Parser::parse( std::string e_ )
     // tentar validar a expressão
     result = expression();
 
-
     if( result.type == ParserResult::PARSER_OK){
 
         skip_ws();
@@ -240,9 +250,9 @@ Parser::parse( std::string e_ )
 
     }
     return result;
+
+
 }
-
-
 /// Return the list of tokens, which is the by-product created during the syntax analysis.
 std::vector< Token >
 Parser::get_tokens( void ) const
