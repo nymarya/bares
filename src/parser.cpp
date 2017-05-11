@@ -164,7 +164,6 @@ Parser::ParserResult Parser::integer()
     if ( expect(terminal_symbol_t::TS_ZERO) )
     {
         token_list.push_back( Token(num, Token::token_t::OPERAND) );
-        skip_ws();
         return ParserResult( ParserResult::PARSER_OK );
     }    
     else if ( expect(terminal_symbol_t::TS_MINUS) )
@@ -187,7 +186,6 @@ Parser::ParserResult Parser::integer()
 
 
         token_list.push_back( Token(num, Token::token_t::OPERAND) );
-        skip_ws();
         return ParserResult( ParserResult::PARSER_OK );
     }
     else 
@@ -203,7 +201,6 @@ Parser::ParserResult Parser::integer()
         if ( num == "")
             return ParserResult( ParserResult::EXTRANEOUS_SYMBOL );
         token_list.push_back( Token(num, Token::token_t::OPERAND) );
-        skip_ws();
         return ParserResult( ParserResult::PARSER_OK );
     }
     
