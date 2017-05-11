@@ -5,12 +5,8 @@
  * Only '+', '-', '*', '%', '/', and '^' (for exponentiation) operators are expected;
  * Any other character is just ignored.
  */
-#include <iostream>  // cout, endl
-#include <stack>     // stack
 #include <string>    // string
-#include <iomanip>
-#include <cassert>   // assert
-#include <cmath>     // pow
+#include <iomanip>   //setfill, setw
 #include "tokenizer.h"
 #include "bares.h"
 
@@ -83,8 +79,9 @@ int main()
         // Se deu pau, imprimir a mensagem adequada.
         if ( result.type != Tokenizer::Result::OK )
             print_msg( result, expr );
-        else
+        else{
             std::cout << ">>> Expression SUCCESSFULLY parsed!\n";
+        
 
         // Recuperar a lista de tokens.
         auto lista = my_parser.get_tokens();
@@ -92,6 +89,13 @@ int main()
         std::copy( lista.begin(), lista.end(),
                 std::ostream_iterator< Token >(std::cout, " ") );
         std::cout << "}\n";
+
+        //Aqui converteria a lista para <string>. Ou não.....
+        //Aqui usaria o bares
+        //Bares bares;
+        //bares.evalute( <string> ); -> para pegar o resultado do calculo
+        }
+
     }
 
     std::cout << "\n>>> Normal parsing...\n";
@@ -103,7 +107,7 @@ int main()
     //std::string expression = "A+(B*C-(D/E^F)+G)*H";
     //
     std::cout << ">>> Input (infix)    = " << expression2 << "\n";
-    auto result = bares.evaluate( expression );
+    auto result = bares.evaluate( expressions[5] );
     std::cout << ">>> Result is: " << result << std::endl;
 
     std::cout << ">>> Input (infix)    = " << expression << "\n";

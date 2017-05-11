@@ -42,8 +42,8 @@ class Bares{
         Bares() = default;
         ~Bares() = default;
         /// Desligar cópia e atribuição.
-        Bares( const Tokenizer & ) = delete;  // Construtor cópia.
-        Bares & operator=( const Tokenizer & ) = delete; // Atribuição.
+        Bares( const Bares & ) = delete;  // Construtor cópia.
+        Bares & operator=( const Bares & ) = delete; // Atribuição.
 
 		/// Converts a expression in infix notation to a corresponding profix representation.
 		void infix_to_postfix( std::string );
