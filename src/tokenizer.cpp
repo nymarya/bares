@@ -141,7 +141,7 @@ Tokenizer::Result Tokenizer::expression()
 
 
         result = term();
-        if ( result.type != Result::OK)
+        if ( result.type != Result::OK and result.type != Result::INTEGER_OUT_OF_RANGE)
         {
             result.type = Result::MISSING_TERM;
             return result;
