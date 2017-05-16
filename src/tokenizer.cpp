@@ -1,4 +1,5 @@
 #include "../include/tokenizer.h"
+#include <limits> //numeric_limits
 
 /// Converts a valid character to the corresponding terminal symbol.
 Tokenizer::terminal_symbol_t  Tokenizer::lexer( char c_ ) const
@@ -159,9 +160,22 @@ Tokenizer::Result Tokenizer::term()
     std::string num;
     num.insert(num.begin(), it_begin, it_curr_symb);
 
-    if( not num.empty() ){
-        token_list.push_back( 
-                   Token( num, Token::token_t::OPERAND));
+    if( result.type == Result::OK ){
+        std::string num;
+        num.insert(num.begin(), it_begin, it_curr_symb);
+
+        //Testa se num está no limite de required_int_type
+        input_int_type value = std::stoll(num);
+        if( value <= std::numeric_limits< Tokenizer::required_int_type >::max() 
+            and value >= std::numeric_limits< Tokenizer::required_int_type >::min()){
+
+            token_list.push_back( 
+                       Token( num, Token::token_t::OPERAND));
+            
+        } else{
+            result.type = Result::INTEGER_OUT_OF_RANGE;
+            result.at_col = std::distance( expr.begin(), it_begin);
+        }
     }
 
     return result;
