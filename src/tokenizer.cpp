@@ -31,11 +31,19 @@ std::string Tokenizer::token_str( terminal_symbol_t s_ ) const
 {
     switch( s_ )
     {
-        case terminal_symbol_t::TS_PLUS   : return "+";
-        case terminal_symbol_t::TS_MINUS  : return "-";
-        case terminal_symbol_t::TS_WS     : return " ";
-        case terminal_symbol_t::TS_ZERO   : return "0";
-        default                           : return "X";
+        case terminal_symbol_t::TS_PLUS      : return "+";
+        case terminal_symbol_t::TS_MINUS     : return "-";
+        case terminal_symbol_t::TS_MOD       : return "%";
+        case terminal_symbol_t::TS_SLASH     : return "/";
+        case terminal_symbol_t::TS_ASTERISK  : return "*";
+        case terminal_symbol_t::TS_CARRET    : return "^";
+        case terminal_symbol_t::TS_CLOSING_PARENTHESIS 
+                                             : return ")";
+        case terminal_symbol_t::TS_OPENING_PARENTHESIS 
+                                             : return "(";
+        case terminal_symbol_t::TS_WS        : return " ";
+        case terminal_symbol_t::TS_ZERO      : return "0";
+        default                              : return "X";
     }
 }
 
@@ -134,6 +142,18 @@ Tokenizer::Result Tokenizer::expression()
             // Token "-", Operator
             token_list.push_back( 
                 Token(token_str(terminal_symbol_t::TS_MINUS), Token::token_t::OPERATOR));
+        }
+        else if ( expect(terminal_symbol_t::TS_ASTERISK))
+        {
+            // Token "-", Operator
+            token_list.push_back( 
+                Token(token_str(terminal_symbol_t::TS_ASTERISK), Token::token_t::OPERATOR));
+        }
+        else if ( expect(terminal_symbol_t::TS_SLASH))
+        {
+            // Token "-", Operator
+            token_list.push_back( 
+                Token(token_str(terminal_symbol_t::TS_SLASH), Token::token_t::OPERATOR));
         }else
         {
             return result;
