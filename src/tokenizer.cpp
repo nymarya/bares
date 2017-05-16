@@ -114,7 +114,7 @@ Tokenizer::input_int_type str_to_int( std::string input_str_ )
 //=== NTS methods.
 Tokenizer::Result Tokenizer::expression()
 {
-    // TODO
+    //ignora espaço em branco
     skip_ws();
     //validar um termo
     auto result = term();
