@@ -76,20 +76,20 @@ class Tokenizer
 
         // Terminal symbols table
         enum class terminal_symbol_t{  // The symbols:-
-            TS_PLUS,	            //<! "+"
-            TS_MINUS,	            //<! "-"
-            TS_MOD,                 //<! "%"
-            TS_SLASH,               //<! "/"
-            TS_ASTERISK,            //<! "*"
-            TS_CARRET,              //<! "^"
-            TS_CLOSING_PARENTHESIS, //<! ")"
-            TS_OPENING_PARENTHESIS, //<! "("
-            TS_ZERO,                //<! "0"
-            TS_NON_ZERO_DIGIT,      //<! "1"->"9"
-            TS_WS,                  //<! White-space
-            TS_TAB,                 //<! Tab
-            TS_EOS,                 //<! End Of String
-            TS_INVALID	            //<! Invalid Token
+            TS_PLUS,	         //<! "+"
+            TS_MINUS,	         //<! "-"
+            TS_MOD,              //<! "%"
+            TS_SLASH,            //<! "/"
+            TS_ASTERISK,         //<! "*"
+            TS_CARRET,           //<! "^"
+            TS_CLOSING_SCOPE,    //<! ")"
+            TS_OPENING_SCOPE,    //<! "("
+            TS_ZERO,             //<! "0"
+            TS_NON_ZERO_DIGIT,   //<! "1"->"9"
+            TS_WS,               //<! White-space
+            TS_TAB,              //<! Tab
+            TS_EOS,              //<! End Of String
+            TS_INVALID	         //<! Invalid Token
         };
 
         //==== Private members.

@@ -12,8 +12,8 @@ Tokenizer::terminal_symbol_t  Tokenizer::lexer( char c_ ) const
         case '/':  return terminal_symbol_t::TS_SLASH;
         case '*':  return terminal_symbol_t::TS_ASTERISK;
         case '^':  return terminal_symbol_t::TS_CARRET;
-        case ')':  return terminal_symbol_t::TS_CLOSING_PARENTHESIS;
-        case '(':  return terminal_symbol_t::TS_OPENING_PARENTHESIS;
+        case ')':  return terminal_symbol_t::TS_CLOSING_SCOPE;
+        case '(':  return terminal_symbol_t::TS_OPENING_SCOPE;
         case ' ':  return terminal_symbol_t::TS_WS;
         case   9:  return terminal_symbol_t::TS_TAB;
         case '0':  return terminal_symbol_t::TS_ZERO;
@@ -43,9 +43,9 @@ std::string Tokenizer::token_str( terminal_symbol_t s_ ) const
         case terminal_symbol_t::TS_SLASH     : return "/";
         case terminal_symbol_t::TS_ASTERISK  : return "*";
         case terminal_symbol_t::TS_CARRET    : return "^";
-        case terminal_symbol_t::TS_CLOSING_PARENTHESIS 
+        case terminal_symbol_t::TS_CLOSING_SCOPE 
                                              : return ")";
-        case terminal_symbol_t::TS_OPENING_PARENTHESIS 
+        case terminal_symbol_t::TS_OPENING_SCOPE 
                                              : return "(";
         case terminal_symbol_t::TS_WS        : return " ";
         case terminal_symbol_t::TS_ZERO      : return "0";
@@ -126,11 +126,22 @@ Tokenizer::Result Tokenizer::expression()
 {
     //ignora espaço em branco
     skip_ws();
+
+    if ( expect(terminal_symbol_t::TS_OPENING_SCOPE))
+    {
+        // Token "^", Operator
+        token_list.push_back( 
+            Token(token_str(terminal_symbol_t::TS_OPENING_SCOPE), Token::token_t::OPENING_SCOPE));
+    }
     //validar um termo
     auto result = term();
     //resultado ok, pode vir +/- <term>
     while ( result.type == Result::OK)
     {
+
+        
+
+
         //pode vir o '+'
         if (expect(terminal_symbol_t::TS_PLUS))
         {
@@ -162,12 +173,24 @@ Tokenizer::Result Tokenizer::expression()
             // Token "^", Operator
             token_list.push_back( 
                 Token(token_str(terminal_symbol_t::TS_CARRET), Token::token_t::OPERATOR));
-        }else
+        }
+        else if ( expect(terminal_symbol_t::TS_CLOSING_SCOPE))
+        {
+            // Token "^", Operator
+            token_list.push_back( 
+                Token(token_str(terminal_symbol_t::TS_CLOSING_SCOPE), Token::token_t::CLOSING_SCOPE));
+        }
+        else 
         {
             return result;
         }
 
-
+        if ( expect(terminal_symbol_t::TS_OPENING_SCOPE))
+        {
+            // Token "^", Operator
+            token_list.push_back( 
+                Token(token_str(terminal_symbol_t::TS_OPENING_SCOPE), Token::token_t::OPENING_SCOPE));
+        }
         result = term();
         if ( result.type != Result::OK and result.type != Result::INTEGER_OUT_OF_RANGE)
         {
