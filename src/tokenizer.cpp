@@ -63,14 +63,12 @@ void Tokenizer::next_symbol( void )
 /// Verifies whether the current symbol is equal to the terminal symbol requested.
 bool Tokenizer::peek( terminal_symbol_t c_ ) const
 {
-    // 
     return ( not end_input() ) and lexer( *it_curr_symb ) == c_;
 }
 
 /// Tries to match the current character to a symbol passed as argument.
 bool Tokenizer::accept( terminal_symbol_t c_ )
 {
-    // TODO
     if ( peek(c_))
     {
         next_symbol();
@@ -92,7 +90,6 @@ bool Tokenizer::expect( terminal_symbol_t c_ )
 /// Ignores any white space or tabs in the expression until reach a valid symbol or end of input.
 void Tokenizer::skip_ws( void )
 {
-    // TODO
     while ( (not end_input()) and 
             ((lexer( *it_curr_symb ) == Tokenizer::terminal_symbol_t::TS_WS) or
              (lexer( *it_curr_symb ) == Tokenizer::terminal_symbol_t::TS_TAB )) )
@@ -104,7 +101,6 @@ void Tokenizer::skip_ws( void )
 /// Checks whether we reached the end of the expression string.
 bool Tokenizer::end_input( void ) const
 {
-    // TODO
     return it_curr_symb == expr.end(); // Stub
 }
 
@@ -151,13 +147,13 @@ Tokenizer::Result Tokenizer::expression()
         }
         else if ( expect(terminal_symbol_t::TS_ASTERISK))
         {
-            // Token "-", Operator
+            // Token "*", Operator
             token_list.push_back( 
                 Token(token_str(terminal_symbol_t::TS_ASTERISK), Token::token_t::OPERATOR));
         }
         else if ( expect(terminal_symbol_t::TS_SLASH))
         {
-            // Token "-", Operator
+            // Token "/", Operator
             token_list.push_back( 
                 Token(token_str(terminal_symbol_t::TS_SLASH), Token::token_t::OPERATOR));
         }else
@@ -169,7 +165,7 @@ Tokenizer::Result Tokenizer::expression()
         result = term();
         if ( result.type != Result::OK and result.type != Result::INTEGER_OUT_OF_RANGE)
         {
-            result.type = Result::MISSING_TERM;
+            //result.type = Result::MISSING_TERM;
             return result;
         }
     }
