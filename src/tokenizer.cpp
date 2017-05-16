@@ -8,6 +8,12 @@ Tokenizer::terminal_symbol_t  Tokenizer::lexer( char c_ ) const
     {
         case '+':  return terminal_symbol_t::TS_PLUS;
         case '-':  return terminal_symbol_t::TS_MINUS;
+        case '%':  return terminal_symbol_t::TS_MOD;
+        case '/':  return terminal_symbol_t::TS_SLASH;
+        case '*':  return terminal_symbol_t::TS_ASTERISK;
+        case '^':  return terminal_symbol_t::TS_CARRET;
+        case ')':  return terminal_symbol_t::TS_CLOSING_PARENTHESIS;
+        case '(':  return terminal_symbol_t::TS_OPENING_PARENTHESIS;
         case ' ':  return terminal_symbol_t::TS_WS;
         case   9:  return terminal_symbol_t::TS_TAB;
         case '0':  return terminal_symbol_t::TS_ZERO;
