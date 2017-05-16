@@ -5,6 +5,10 @@
  * Only '+', '-', '*', '%', '/', and '^' (for exponentiation) operators are expected;
  * Any other character is just ignored.
  */
+
+#include <iostream>  // cout, endl
+#include <sstream>   // getline
+#include <stack>     // stack
 #include <string>    // string
 #include <iomanip>   //setfill, setw
 #include "tokenizer.h"
@@ -13,20 +17,6 @@
 using value_type = long int;
 
 
-
-std::vector<std::string> expressions =
-{
-    "32767 - 32768 + 3",
-    "5 + -32766",
-    "5 + -32769",
-    "12 + 3",
-    "-3+-5+-6",
-    "12 + 3     -3 + -34 ",
-    "+12",
-    "1.3 * 4",
-    "a + 4",
-    "       "
-};
 
 void print_msg( const Tokenizer::Result & result, std::string str )
 {
@@ -66,6 +56,20 @@ void print_msg( const Tokenizer::Result & result, std::string str )
 
 int main()
 {
+    //lista com as expressões
+    std::vector<std::string> expressions;
+    std::string aux;
+
+    while ( std::getline(std::cin, aux) )
+    {
+        expressions.push_back( aux );
+    }
+
+    std::cout << "expressões lidas:\n ";
+    for ( auto i( expressions.begin() ); i != expressions.end(); i++)
+    {
+        std::cout << "' " << *i << " '" << std::endl;
+    }
 
     Tokenizer my_parser; // Instancia um parser.
     // Tentar analisar cada expressão da lista.
