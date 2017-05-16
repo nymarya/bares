@@ -156,6 +156,12 @@ Tokenizer::Result Tokenizer::expression()
             // Token "/", Operator
             token_list.push_back( 
                 Token(token_str(terminal_symbol_t::TS_SLASH), Token::token_t::OPERATOR));
+        }
+        else if ( expect(terminal_symbol_t::TS_CARRET))
+        {
+            // Token "^", Operator
+            token_list.push_back( 
+                Token(token_str(terminal_symbol_t::TS_CARRET), Token::token_t::OPERATOR));
         }else
         {
             return result;
