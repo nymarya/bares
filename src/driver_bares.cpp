@@ -13,6 +13,7 @@
 #include <iomanip>   //setfill, setw
 #include "tokenizer.h"
 #include "bares.h"
+#include <typeinfo>
 
 using value_type = long int;
 
@@ -89,6 +90,7 @@ int main()
 
         // Recuperar a lista de tokens.
         auto lista = my_parser.get_tokens();
+        cout << typeid(variable).lista() << endl;
         std::cout << ">>> Tokens: { ";
         std::copy( lista.begin(), lista.end(),
                 std::ostream_iterator< Token >(std::cout, " ") );

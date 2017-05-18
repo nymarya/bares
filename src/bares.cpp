@@ -1,7 +1,7 @@
 #include "bares.h"
 
-int Bares::char2int( char ch){
-    return ch-'0';
+int Bares::char2int( Token ch){
+    return ch.value-'0';
 }
 
 int Bares::execute( value_type n1, value_type n2, char opr){
@@ -32,13 +32,13 @@ int Bares::execute( value_type n1, value_type n2, char opr){
 
 }
 
-int Bares::evaluate( std::string infix){
+int Bares::evaluate( Token infix ){
 
     infix_to_postfix(infix);
 
-    std::stack< int> s;
+    std::stack< std::string > s;
 
-    for( auto ch: expression){
+    for( Token ch: expression){
         if( is_operand(ch)) s.push(   char2int(ch)   );
 
         else if( is_operator(ch) ){
@@ -56,34 +56,34 @@ int Bares::evaluate( std::string infix){
     return s.top(); 
 }
 
-void Bares::infix_to_postfix( std::string infix_ ){
+void Bares::infix_to_postfix( Token infix_ ){
 
     //Stores the postfix expression
     std::string postfix = "";
 
     //Stack to help us convert the exp
-    std::stack< char > s;
+    std::stack< std::string > s;
 
     //Tranverse the expression
-    for (char  ch : infix_){
+    for (Token  ch : infix_){
 
         if( is_operand(ch))
-            expression += ch;
+            expression += ch.value;
         else if ( is_operator(ch) ){
 
             //Pops out all the element with higher priority
-            while( not s.empty() and has_higher_precedence(s.top(), ch) ){
+            while( not s.empty() and has_higher_precedence(s.top(), ch.value) ){
                 expression += s.top();
                 s.pop();
             }
 
             //the incoming operator always goes into the stack
-            s.push(ch);
+            s.push(ch.value);
         }
-        else if ( is_opening_scope(ch) ){
-            s.push(ch);
+        else if ( is_opening_scope(ch.value) ){
+            s.push(ch.value);
         }
-        else if ( is_closing_scope(ch) ){
+        else if ( is_closing_scope(ch.value) ){
             //pop out all the elemens that are not '('
             while( not is_opening_scope(s.top()) and not s.empty() ){
                 expression += s.top(); //goes to the output
@@ -103,31 +103,31 @@ void Bares::infix_to_postfix( std::string infix_ ){
 
 }
 
-bool Bares::is_operator(char c){
-    std::string operators = "+-/^*%";
-
-    return (operators.find(c) != std::string::npos);
+bool Bares::is_operator(Token c){
+    
+    return c.type == Token::token_t::OPERATOR;
 }
 
-bool Bares::is_operand( char c){
-    return ( c >= 48 and c <= 57);
+bool Bares::is_operand( Token c){
+    return c.type == Token::token_t::OPERAND;
 }
 
-bool Bares::is_opening_scope( char c){
-    return (c == '(');
+bool Bares::is_opening_scope( std::string c){
+    return (c == "(");
 }
 
-bool Bares::is_closing_scope(char c){
-    return (c== ')');
+bool Bares::is_closing_scope(std::string c){
+    return (c == ")");
 }
 
-bool Bares::is_right_association(char c){
-    return c == '^';
+bool Bares::is_right_association(std::string c){
+    return c == "^";
 }
 
-int Bares::get_precedence( char c){
+int Bares::get_precedence( std::string c){
     int weigth = 0;
-    switch( c ){
+    const char *d = c.c_str();
+    switch( *d ){
         case '^':
             weigth = 3;
             break;
@@ -156,7 +156,7 @@ int Bares::get_precedence( char c){
     return weigth;
 }
 
-bool Bares::has_higher_precedence( char op1, char op2){
+bool Bares::has_higher_precedence( std::string op1, std::string op2){
 
     auto p1 = get_precedence( op1 ); //Top
     auto p2 = get_precedence( op2 ); //New operator
