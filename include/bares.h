@@ -7,6 +7,8 @@
 #include <iomanip>
 #include <cassert>   // assert
 #include <cmath>     // pow
+#include <sstream> // std::stringstream
+
 #include "tokenizer.h"
 
 class Bares{
@@ -15,7 +17,8 @@ class Bares{
 	using value_type = long int;
 
 	private:
-		std::string expression = "";
+		
+		std::vector<Token> expression;
 
 
 		bool is_operator(Token c);
@@ -28,7 +31,7 @@ class Bares{
 
 		bool has_higher_precedence( std::string op1, std::string op2);
 
-		int char2int( Token ch);
+		// int char2int( Token ch);
 
 		bool is_right_association(std::string c);
 
@@ -46,13 +49,14 @@ class Bares{
         Bares & operator=( const Bares & ) = delete; // Atribuição.
 
 		/// Converts a expression in infix notation to a corresponding profix representation.
-		void infix_to_postfix( Token );
+		void infix_to_postfix( std::vector<Token> infix_ );
 
 		/// Executes the operation op
-		int execute( value_type n1, value_type n2, char opr);
+		std::string execute( std::string n1, std::string n2, Token opr);
+		
 
 		/// Evaluate postfix expression
-		int evaluate(Token);
+		int evaluate(std::vector<Token>);
 };
 
 

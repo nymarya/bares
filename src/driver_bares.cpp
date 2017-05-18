@@ -87,40 +87,39 @@ int main()
         else{
             std::cout << ">>> Expression SUCCESSFULLY parsed!\n";
         
+            // Recuperar a lista de tokens.
+            auto lista = my_parser.get_tokens();
+            std::cout << ">>> Tokens: { ";
+            std::copy( lista.begin(), lista.end(),
+                    std::ostream_iterator< Token >(std::cout, " ") );
+            std::cout << "}\n";
 
-        // Recuperar a lista de tokens.
-        auto lista = my_parser.get_tokens();
-        cout << typeid(variable).lista() << endl;
-        std::cout << ">>> Tokens: { ";
-        std::copy( lista.begin(), lista.end(),
-                std::ostream_iterator< Token >(std::cout, " ") );
-        std::cout << "}\n";
-
-        //Aqui converteria a lista para <string>. Ou não.....
-        //Aqui usaria o bares
-        //Bares bares;
-        //bares.evalute( <string> ); -> para pegar o resultado do calculo
+            //Aqui converteria a lista para <string>. Ou não.....
+            //Aqui usaria o bares
+            Bares bares;
+            auto result = bares.evaluate( lista );
+            std::cout << ">>> Result is: " << result << std::endl;
         }
 
     }
 
     std::cout << "\n>>> Normal parsing...\n";
 
-    Bares bares;
+    // Bares bares;
 
-    std::string expression = "4/(5^2)+(6^2^3)";
-    std::string expression2 = "1+ 3 * ( 4 + 8 * 3 ^7)";
-    //std::string expression = "A+(B*C-(D/E^F)+G)*H";
-    //
-    std::cout << ">>> Input (infix)    = " << expression2 << "\n";
-    auto result = bares.evaluate( expressions[5] );
-    std::cout << ">>> Result is: " << result << std::endl;
+    // std::string expression = "4/(5^2)+(6^2^3)";
+    // std::string expression2 = "1+ 3 * ( 4 + 8 * 3 ^7)";
+    // //std::string expression = "A+(B*C-(D/E^F)+G)*H";
+    // //
+    // std::cout << ">>> Input (infix)    = " << expression2 << "\n";
+    // auto result = bares.evaluate( expressions[5] );
+    // std::cout << ">>> Result is: " << result << std::endl;
 
-    std::cout << ">>> Input (infix)    = " << expression << "\n";
+    // std::cout << ">>> Input (infix)    = " << expression << "\n";
 
-    result = bares.evaluate( expression2 );
-    std::cout << ">>> Result is: " << result << std::endl;
-    std::cout << "\n>>> Normal exiting...\n";
+    // result = bares.evaluate( expression2 );
+    // std::cout << ">>> Result is: " << result << std::endl;
+    // std::cout << "\n>>> Normal exiting...\n";
 
     return EXIT_SUCCESS;
 }
