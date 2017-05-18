@@ -160,6 +160,12 @@ Tokenizer::Result Tokenizer::expression()
             token_list.push_back( 
                 Token(token_str(terminal_symbol_t::TS_SLASH), Token::token_t::OPERATOR));
         }
+         else if ( expect(terminal_symbol_t::TS_MOD))
+        {
+            // Token "%", Operator
+            token_list.push_back( 
+                Token(token_str(terminal_symbol_t::TS_MOD), Token::token_t::OPERATOR));
+        }
         else if ( expect(terminal_symbol_t::TS_CARRET))
         {
             // Token "^", Operator
