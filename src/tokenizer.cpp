@@ -122,25 +122,17 @@ Tokenizer::input_int_type str_to_int( std::string input_str_ )
 }
 
 //=== NTS methods.
+
+//<expr> := <term>,{ ("+"|"-"|"*"|"/"|"%"|"^"),<term> }
 Tokenizer::Result Tokenizer::expression()
 {
     //ignora espaço em branco
     skip_ws();
-
-    if ( expect(terminal_symbol_t::TS_OPENING_SCOPE))
-    {
-        // Token "^", Operator
-        token_list.push_back( 
-            Token(token_str(terminal_symbol_t::TS_OPENING_SCOPE), Token::token_t::OPENING_SCOPE));
-    }
     //validar um termo
     auto result = term();
     //resultado ok, pode vir +/- <term>
     while ( result.type == Result::OK)
     {
-
-        
-
 
         //pode vir o '+'
         if (expect(terminal_symbol_t::TS_PLUS))
@@ -174,23 +166,17 @@ Tokenizer::Result Tokenizer::expression()
             token_list.push_back( 
                 Token(token_str(terminal_symbol_t::TS_CARRET), Token::token_t::OPERATOR));
         }
-        else if ( expect(terminal_symbol_t::TS_CLOSING_SCOPE))
-        {
-            // Token "^", Operator
-            token_list.push_back( 
-                Token(token_str(terminal_symbol_t::TS_CLOSING_SCOPE), Token::token_t::CLOSING_SCOPE));
-        }
         else 
         {
             return result;
         }
-
+/**
         if ( expect(terminal_symbol_t::TS_OPENING_SCOPE))
         {
             // Token "^", Operator
             token_list.push_back( 
                 Token(token_str(terminal_symbol_t::TS_OPENING_SCOPE), Token::token_t::OPENING_SCOPE));
-        }
+        }**/
         result = term();
         if ( result.type != Result::OK and result.type != Result::INTEGER_OUT_OF_RANGE)
         {
@@ -202,32 +188,51 @@ Tokenizer::Result Tokenizer::expression()
     return result;
 }
 
+//<term> := "(",<expr>,")" | <integer>
 Tokenizer::Result Tokenizer::term()
 {
     skip_ws();
     std::string::iterator it_begin =  it_curr_symb;
-    auto result =  integer();
 
-    std::string num;
-    num.insert(num.begin(), it_begin, it_curr_symb);
+    Result result = Result( Result::MISSING_TERM, std::distance( expr.begin(), it_curr_symb) );
+    //Pode vir um "("
+    if( expect(terminal_symbol_t::TS_OPENING_SCOPE)){
+        token_list.push_back( 
+                           Token( token_str(terminal_symbol_t::TS_OPENING_SCOPE), Token::token_t::OPENING_SCOPE));
+        result = expression();
+        //result = Result( Result::OK, std::distance( expr.begin(), it_curr_symb) );
+        if(result.type == Result::OK){
+            if( not expect(terminal_symbol_t::TS_CLOSING_SCOPE))
+                return Result( Result::MISSING_CLOSING_PARENTHESIS, std::distance( expr.begin(), it_curr_symb) );
+            //Se for ")", adiciona à lista de tokens
+            token_list.push_back( 
+                           Token( token_str(terminal_symbol_t::TS_CLOSING_SCOPE), Token::token_t::CLOSING_SCOPE));
+        }
+    } else{
+        result =  integer();
 
-    if( result.type == Result::OK ){
         std::string num;
         num.insert(num.begin(), it_begin, it_curr_symb);
 
-        //Testa se num está no limite de required_int_type
-        input_int_type value = std::stoll(num);
-        if( value <= std::numeric_limits< Tokenizer::required_int_type >::max() 
-            and value >= std::numeric_limits< Tokenizer::required_int_type >::min()){
+        if( result.type == Result::OK ){
+            std::string num;
+            num.insert(num.begin(), it_begin, it_curr_symb);
 
-            token_list.push_back( 
-                       Token( num, Token::token_t::OPERAND));
-            
-        } else{
-            result.type = Result::INTEGER_OUT_OF_RANGE;
-            result.at_col = std::distance( expr.begin(), it_begin);
+            //Testa se num está no limite de required_int_type
+            input_int_type value = std::stoll(num);
+            if( value <= std::numeric_limits< Tokenizer::required_int_type >::max() 
+                and value >= std::numeric_limits< Tokenizer::required_int_type >::min()){
+
+                token_list.push_back( 
+                           Token( num, Token::token_t::OPERAND));
+                
+            } else{
+                result.type = Result::INTEGER_OUT_OF_RANGE;
+                result.at_col = std::distance( expr.begin(), it_begin);
+            }
         }
     }
+  
 
     return result;
 }

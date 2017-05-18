@@ -111,13 +111,13 @@ int main()
     //std::string expression = "A+(B*C-(D/E^F)+G)*H";
     //
     std::cout << ">>> Input (infix)    = " << expression2 << "\n";
-    auto result = bares.evaluate( expressions[5] );
+    auto result = bares.evaluate( expression2 );
     std::cout << ">>> Result is: " << result << std::endl;
 
     std::cout << ">>> Input (infix)    = " << expression << "\n";
 
-    result = bares.evaluate( expression2 );
-    std::cout << ">>> Result is: " << result << std::endl;
+   // result = bares.evaluate( expression2 );
+    //std::cout << ">>> Result is: " << result << std::endl;
     std::cout << "\n>>> Normal exiting...\n";
 
     return EXIT_SUCCESS;
