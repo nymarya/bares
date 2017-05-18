@@ -81,7 +81,6 @@ bool Tokenizer::accept( terminal_symbol_t c_ )
 /// Verify whether the next valid symbol is the one expected; if it is so, the method accepts it.
 bool Tokenizer::expect( terminal_symbol_t c_ )
 {
-    // TODO
     skip_ws();
     return accept(c_); // Stub
 }
@@ -90,6 +89,7 @@ bool Tokenizer::expect( terminal_symbol_t c_ )
 /// Ignores any white space or tabs in the expression until reach a valid symbol or end of input.
 void Tokenizer::skip_ws( void )
 {
+    //<! Avança enquanto houver espaço ou tab
     while ( (not end_input()) and 
             ((lexer( *it_curr_symb ) == Tokenizer::terminal_symbol_t::TS_WS) or
              (lexer( *it_curr_symb ) == Tokenizer::terminal_symbol_t::TS_TAB )) )
