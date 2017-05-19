@@ -97,8 +97,8 @@ int main()
             //Aqui converteria a lista para <string>. Ou não.....
             //Aqui usaria o bares
             Bares bares;
-            //auto result = bares.evaluate( lista );
-            //std::cout << ">>> Result is: " << result << std::endl;
+            auto result = bares.evaluate( lista );
+            std::cout << ">>> Result is: " << result << std::endl;
         }
 
     }
