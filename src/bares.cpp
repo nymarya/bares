@@ -82,28 +82,10 @@ void Bares::infix_to_postfix( std::vector<Token> infix_ ){
     //Stack to help us convert the exp
     std::stack< std::string > s;
 
-    //chave master do (
-    bool master_key = false;
-
-    //std::vector<Token>::iterator it = expression.begin();
     //Tranverse the expression
     for (Token ch : infix_){
 
-        if ( master_key and not is_closing_scope(ch.value))
-        {
-            Token add;
-            if ( is_operand(ch) )
-                {
-                    add.type = ch.type;
-                    add.value = ch.value;
-                    expression.push_back(add);
-                } 
-            else
-            {
-                s.push(ch.value);
-            }
-        }
-        else if( is_operand(ch))
+        if( is_operand(ch))
         {
             Token add;
             add.type = ch.type;
@@ -129,13 +111,11 @@ void Bares::infix_to_postfix( std::vector<Token> infix_ ){
         else if ( is_opening_scope(ch.value) ){
             
             s.push(ch.value);
-            master_key = true;
-            
+                        
         }
         else if ( is_closing_scope(ch.value) )
         {
             //pop out all the elemens that are not '('
-            master_key = false;
             while( not is_opening_scope(s.top()) and not s.empty() )
             {
                 //goes to the output
