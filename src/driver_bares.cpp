@@ -105,21 +105,5 @@ int main()
 
     std::cout << "\n>>> Normal parsing...\n";
 
-    // Bares bares;
-
-    // std::string expression = "4/(5^2)+(6^2^3)";
-    // std::string expression2 = "1+ 3 * ( 4 + 8 * 3 ^7)";
-    // //std::string expression = "A+(B*C-(D/E^F)+G)*H";
-    // //
-    // std::cout << ">>> Input (infix)    = " << expression2 << "\n";
-    // auto result = bares.evaluate( expressions[5] );
-    // std::cout << ">>> Result is: " << result << std::endl;
-
-    // std::cout << ">>> Input (infix)    = " << expression << "\n";
-
-    // result = bares.evaluate( expression2 );
-    // std::cout << ">>> Result is: " << result << std::endl;
-    // std::cout << "\n>>> Normal exiting...\n";
-
     return EXIT_SUCCESS;
 }
