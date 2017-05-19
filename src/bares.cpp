@@ -1,13 +1,29 @@
 #include "bares.h"
 
-int Bares::char2int( char ch){
-    return ch-'0';
-}
+// int Bares::char2int( Token ch){
+//     auto str = ch.value;
+//     char * writable = new char[str.size() + 1];
+//     std::copy(str.begin(), str.end(), writable);
+//     writable[str.size()] = '\0'; 
 
-int Bares::execute( value_type n1, value_type n2, char opr){
+//     return *writable-'0';
+// }
+
+std::string Bares::execute( std::string i_n1, std::string i_n2, Token opr){
+
+    // resultado final
+    std::string fim;
+
+    //converte string para inteiro
+    std::string::size_type sz;   // alias of size_t
+    int n1 = std::stoi (i_n1,&sz);
+    int n2 = std::stoi (i_n2,&sz);
 
     value_type result(0);
-    switch ( opr )
+
+    //converte o Token para const char
+    const char *d = (opr.value).c_str();
+    switch ( *d )
     {
         case '^' : result = static_cast<value_type>( pow( n1, n2 ) );
                    break;
@@ -28,106 +44,127 @@ int Bares::execute( value_type n1, value_type n2, char opr){
         default: assert(false);
     }
 
-    return result;
-
+    std::stringstream ss;
+    ss << result;
+    return ss.str();
+    
 }
 
-int Bares::evaluate( std::string infix){
+int Bares::evaluate( std::vector<Token> infix ){
 
     infix_to_postfix(infix);
+    std::stack< std::string > s;
 
-    std::stack< int> s;
-
-    for( auto ch: expression){
-        if( is_operand(ch)) s.push(   char2int(ch)   );
+    for( Token ch: expression){
+        if( is_operand(ch)) s.push(ch.value);
 
         else if( is_operator(ch) ){
             auto op2 = s.top(); s.pop();
             auto op1 = s.top(); s.pop();
 
             auto result = execute(op1, op2, ch);
-            s.push( result);
+            s.push( result );
         }
         else {
             assert(false);
         }
     }
-
-    return s.top(); 
+    //converte string para inteiro
+    std::string::size_type sz;   // alias of size_t
+    int n1 = std::stoi (s.top(),&sz);
+    return n1; 
 }
 
-void Bares::infix_to_postfix( std::string infix_ ){
-
+void Bares::infix_to_postfix( std::vector<Token> infix_ ){
     //Stores the postfix expression
     std::string postfix = "";
 
     //Stack to help us convert the exp
-    std::stack< char > s;
+    std::stack< std::string > s;
 
+    //std::vector<Token>::iterator it = expression.begin();
     //Tranverse the expression
-    for (char  ch : infix_){
+    for (Token ch : infix_){
 
         if( is_operand(ch))
-            expression += ch;
+        {
+            Token add;
+            add.type = ch.type;
+            add.value = ch.value;
+            expression.push_back(add);
+                        
+        }
         else if ( is_operator(ch) ){
 
             //Pops out all the element with higher priority
-            while( not s.empty() and has_higher_precedence(s.top(), ch) ){
-                expression += s.top();
+            while( not s.empty() and has_higher_precedence(s.top(), ch.value) ){
+
+                Token add;
+                add.type = ch.type;
+                add.value = s.top();
+                expression.push_back(add);
+
                 s.pop();
+
             }
 
             //the incoming operator always goes into the stack
-            s.push(ch);
+            s.push(ch.value);
         }
-        else if ( is_opening_scope(ch) ){
-            s.push(ch);
+        else if ( is_opening_scope(ch.value) ){
+            s.push(ch.value);
         }
-        else if ( is_closing_scope(ch) ){
+        else if ( is_closing_scope(ch.value) ){
             //pop out all the elemens that are not '('
             while( not is_opening_scope(s.top()) and not s.empty() ){
-                expression += s.top(); //goes to the output
-                s.pop();    //pops out the element
+                
+                //goes to the output
+                Token add;
+                add.type = ch.type;
+                add.value = s.top();
+                expression.push_back(add);    //pops out the element
             }
             s.pop(); //remove the '(' from the stack
-        }
-        else {
-
         }
     }
 
     while (not s.empty()){
-        expression += s.top();
+        
+        Token add;
+        add.type = Token::token_t::OPERATOR;
+        add.value = s.top();
+        expression.push_back(add);
+
         s.pop();
     }
 
 }
 
-bool Bares::is_operator(char c){
-    std::string operators = "+-/^*%";
-
-    return (operators.find(c) != std::string::npos);
+bool Bares::is_operator(Token c){
+    
+    return c.type == Token::token_t::OPERATOR;
 }
 
-bool Bares::is_operand( char c){
-    return ( c >= 48 and c <= 57);
+bool Bares::is_operand( Token c){
+    return c.type == Token::token_t::OPERAND;
 }
 
-bool Bares::is_opening_scope( char c){
-    return (c == '(');
+bool Bares::is_opening_scope( std::string c){
+    return (c == "(");
 }
 
-bool Bares::is_closing_scope(char c){
-    return (c== ')');
+bool Bares::is_closing_scope(std::string c){
+    return (c == ")");
 }
 
-bool Bares::is_right_association(char c){
-    return c == '^';
+bool Bares::is_right_association(std::string c){
+    return c == "^";
 }
 
-int Bares::get_precedence( char c){
+int Bares::get_precedence( std::string c){
     int weigth = 0;
-    switch( c ){
+    const char *d = c.c_str();
+    switch( *d ){
         case '^':
             weigth = 3;
             break;
@@ -156,7 +193,7 @@ int Bares::get_precedence( char c){
     return weigth;
 }
 
-bool Bares::has_higher_precedence( char op1, char op2){
+bool Bares::has_higher_precedence( std::string op1, std::string op2){
 
     auto p1 = get_precedence( op1 ); //Top
     auto p2 = get_precedence( op2 ); //New operator
