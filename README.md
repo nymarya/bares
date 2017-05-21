@@ -49,7 +49,7 @@ Neste caso, os resultados das avaliações das expressões serão escritos no ar
 
 ## Possíveis erros
 
-- Durante a validação das expresses, os seguintes erros podem ocorrer:
+- Durante a validação da expressõe, os seguintes erros podem ocorrer:
 
 
 `Constante inteira fora do intervalo começando na coluna(n)!`
@@ -85,7 +85,7 @@ Ex.: ((2 % 3) ∗ 8, coluna 13.
 Expressão corresponde a uma linha contendo apenas espaços, cujo final é encontrado na coluna *n*.<br/>
 Ex.: "    ", coluna 4 ou "   (", coluna 4.
 
-- Os seguintes erros podem ocorrer durante o cálculo da expressãp
+- Os seguintes erros podem ocorrer durante o cálculo da expressão
 
 `Divisão por zero!` 
 
