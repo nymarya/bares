@@ -146,7 +146,7 @@ Tokenizer::Result Tokenizer::expression()
         {
             // Token "-", Operator
             token_list.push_back( 
-                Token(token_str(terminal_symbol_t::TS_MINUS), Token::token_t::OPERATOR));
+                Token(token_str(terminal_symbol_t::TS_MINUS), Token::token_t::OPERATOR));   
         }
         else if ( expect(terminal_symbol_t::TS_ASTERISK))
         {
@@ -176,13 +176,7 @@ Tokenizer::Result Tokenizer::expression()
         {
             return result;
         }
-/**
-        if ( expect(terminal_symbol_t::TS_OPENING_SCOPE))
-        {
-            // Token "^", Operator
-            token_list.push_back( 
-                Token(token_str(terminal_symbol_t::TS_OPENING_SCOPE), Token::token_t::OPENING_SCOPE));
-        }**/
+
         result = term();
         if ( result.type != Result::OK and result.type != Result::INTEGER_OUT_OF_RANGE)
         {
@@ -217,15 +211,13 @@ Tokenizer::Result Tokenizer::term()
     } else{
         result =  integer();
 
-        std::string num;
-        num.insert(num.begin(), it_begin, it_curr_symb);
-
         if( result.type == Result::OK ){
+            //Salva número recuperado com string
             std::string num;
-            num.insert(num.begin(), it_begin, it_curr_symb);
+            num.insert(num.begin(), it_begin+result.at_col, it_curr_symb);
 
             //Testa se num está no limite de required_int_type
-            input_int_type value = std::stoll(num);
+            input_int_type value = std::stoll("3");
             if( value <= std::numeric_limits< Tokenizer::required_int_type >::max() 
                 and value >= std::numeric_limits< Tokenizer::required_int_type >::min()){
 
@@ -239,26 +231,39 @@ Tokenizer::Result Tokenizer::term()
         }
     }
   
-
     return result;
 }
 
 Tokenizer::Result Tokenizer::integer()
 {
-    // TODO
-    std::string num;
     if ( accept(terminal_symbol_t::TS_ZERO) )
     {
-    
         return Result( Result::OK );
-    }    
+    }
+    
+    //Pode vir vários "-"
+    auto cont(0);
+    while( expect(terminal_symbol_t::TS_MINUS) ){
+        cont++;
+    }
+    //Se o número de "-" for par, o número será positivo
+    //Ou seja, todos os "-" serão ignorados
+    //Se for ímpar, o número será negativo
+    //Ou seja, apenas o último "-" vai ser considerado
+    if(cont % 2 == 1)
+        cont-=1;
 
+    auto result =  natural_number();
 
-    accept(terminal_symbol_t::TS_MINUS);
+    // Se o resultado for ok, conta quantos "-" vai ter que pular
+    if(result.type == Result::OK)
+        result.at_col = cont;
 
-    return natural_number();
+    return result; 
+
 }
 
+//<natural_number> := <digit_excl_zero>,{<digit>}
 Tokenizer::Result Tokenizer::natural_number()
 {
 
@@ -276,15 +281,16 @@ Tokenizer::Result Tokenizer::natural_number()
 }
 
 //TS methods
+
+// <digit_excl_zero> := "1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
 bool Tokenizer::digit_excl_zero()
-{
-   
+{  
     return accept( terminal_symbol_t::TS_NON_ZERO_DIGIT );
 }
 
+// <digit> := "0" | <digit_excl_zero>
 bool Tokenizer::digit()
-{
-    
+{ 
     return (accept( terminal_symbol_t::TS_ZERO ) or digit_excl_zero() );
 }
 
