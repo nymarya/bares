@@ -13,7 +13,7 @@ de receber expressões aritméticas simples, formadas por constantes numéricas 
 
 Existem 3 maneiras de executar o BARES:
 
-- Expressões passadas no terminal
+- Passando expressões pelo terminal
 
 |  Comando           | Descrição  |
 | :-----| :-------------|
@@ -29,7 +29,7 @@ Com esse comando, o usuário deve digitar cada expressão no terminal. Cada linh
 
 Com esse comando, os resultados das avaliações das expressões serão exibidos no prório terminal.
 
-- Utilizando expressões escritas em arquivo e salvando
+- Utilizando expressões escritas em arquivo e gravando resultados
 
 |  Comando           | Descrição  |
 | :-----| :-------------|
