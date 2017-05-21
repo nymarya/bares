@@ -82,7 +82,6 @@ void Bares::infix_to_postfix( std::vector<Token> infix_ ){
     //Stack to help us convert the exp
     std::stack< std::string > s;
 
-    //std::vector<Token>::iterator it = expression.begin();
     //Tranverse the expression
     for (Token ch : infix_){
 
@@ -91,11 +90,10 @@ void Bares::infix_to_postfix( std::vector<Token> infix_ ){
             Token add;
             add.type = ch.type;
             add.value = ch.value;
-            expression.push_back(add);
+            expression.push_back(add);;
                         
         }
         else if ( is_operator(ch) ){
-
             //Pops out all the element with higher priority
             while( not s.empty() and has_higher_precedence(s.top(), ch.value) ){
 
@@ -103,7 +101,6 @@ void Bares::infix_to_postfix( std::vector<Token> infix_ ){
                 add.type = ch.type;
                 add.value = s.top();
                 expression.push_back(add);
-
                 s.pop();
 
             }
@@ -112,22 +109,28 @@ void Bares::infix_to_postfix( std::vector<Token> infix_ ){
             s.push(ch.value);
         }
         else if ( is_opening_scope(ch.value) ){
+            
             s.push(ch.value);
+                        
         }
-        else if ( is_closing_scope(ch.value) ){
+        else if ( is_closing_scope(ch.value) )
+        {
             //pop out all the elemens that are not '('
-            while( not is_opening_scope(s.top()) and not s.empty() ){
-                
+            while( not is_opening_scope(s.top()) and not s.empty() )
+            {
                 //goes to the output
                 Token add;
-                add.type = ch.type;
+                add.type = Token::token_t::OPERATOR;
                 add.value = s.top();
+
                 expression.push_back(add);    //pops out the element
+                s.pop();
             }
             s.pop(); //remove the '(' from the stack
         }
     }
 
+   
     while (not s.empty()){
         
         Token add;
@@ -137,6 +140,8 @@ void Bares::infix_to_postfix( std::vector<Token> infix_ ){
 
         s.pop();
     }
+
+    
 
 }
 
