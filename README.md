@@ -49,6 +49,53 @@ Neste caso, os resultados das avaliações das expressões serão escritos no ar
 
 ## Possíveis erros
 
+- Durante a validação das expresses, os seguintes erros podem ocorrer:
+
+
+`Constante inteira fora do intervalo começando na coluna(n)!`
+
+O operando que se inicia na coluna *n* está fora da faixa permitida.<br/>
+Ex.: 1000000 − 2, coluna 1.
+
+
+`Faltando <termo> na coluna(n)!` 
+
+A partir da coluna *n* está faltando o resto da expressão .<br/>
+Ex.: 2 +, coluna 4.
+
+
+`Símbolo inesperado após expressão válida encontrado na coluna(n)!`
+
+Existe um sı́mbolo qualquer (válido ou não) que foi encontrado depois que uma expressão completa foi validada, na coluna *n*.<br/>
+Ex.: 2 = 3, coluna 3; ou 2 + 3 4, coluna 7.
+
+
+`Inteiro mal formado na coluna (n)!` 
+
+Expressão contém constante inteira iniciada na coluna *n* que possui sı́mbolo inválido em sua composição.<br/>
+Ex.: − 5, coluna 1; ou ! 3, coluna 1; ou ) 2 + 4, coluna 1.
+
+`Faltando símbolo ")" na coluna(n)!` 
+
+Está faltando um parêntese de fechamento ‘)’ para um parêntese de abertura ‘(’ correspondente, na coluna *n*.<br/>
+Ex.: ((2 % 3) ∗ 8, coluna 13.
+
+`Final inesperado de expressão na coluna(n)!` 
+
+Expressão corresponde a uma linha contendo apenas espaços, cujo final é encontrado na coluna *n*.<br/>
+Ex.: "    ", coluna 4 ou "   (", coluna 4.
+
+- Os seguintes erros podem ocorrer durante o cálculo da expressãp
+
+`Divisão por zero!` 
+
+Durante a avaliação, o quociente de alguma divisão é zero.<br/>
+Ex.: 3/(1 − 1); ou 10/(3 ∗ 3ˆ−2).
+
+`Erro de sobrecarga numérica!` 
+
+Acontece quando uma operação dentro da expressão ou o resultado da expressão inteira estoura o limite das constantes numéricas definidos na descrição do programa.<br/>
+Ex.: 20 ∗ 20000.
 
 
 ## Autoria
