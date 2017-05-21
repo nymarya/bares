@@ -217,7 +217,7 @@ Tokenizer::Result Tokenizer::term()
             num.insert(num.begin(), it_begin+result.at_col, it_curr_symb);
 
             //Testa se num está no limite de required_int_type
-            input_int_type value = std::stoll("3");
+            input_int_type value = std::stoll(num);
             if( value <= std::numeric_limits< Tokenizer::required_int_type >::max() 
                 and value >= std::numeric_limits< Tokenizer::required_int_type >::min()){
 
@@ -266,7 +266,6 @@ Tokenizer::Result Tokenizer::integer()
 //<natural_number> := <digit_excl_zero>,{<digit>}
 Tokenizer::Result Tokenizer::natural_number()
 {
-
     auto result = digit_excl_zero();
     if( result) {
     
