@@ -13,7 +13,7 @@ de receber expressões aritméticas simples, formadas por constantes numéricas 
 
 Existem 3 maneiras de executar o BARES:
 
-- Passando expressões pelo terminal
+##### Passando expressões pelo terminal
 
 |  Comando           | Descrição  |
 | :-----| :-------------|
@@ -21,7 +21,7 @@ Existem 3 maneiras de executar o BARES:
 
 Com esse comando, o usuário deve digitar cada expressão no terminal. Cada linha representará uma expressão e, ao final, basta pressionar `CRTL+D` para que as entradas sejam avaliadas e os resultados sejam exibidos no terminal.
 
-- Utilizando expressões salvas em arquivo
+##### Utilizando expressões salvas em arquivo
 
 |  Comando           | Descrição  |
 | :-----| :-------------|
@@ -29,7 +29,7 @@ Com esse comando, o usuário deve digitar cada expressão no terminal. Cada linh
 
 Com esse comando, os resultados das avaliações das expressões serão exibidos no prório terminal.
 
-- Utilizando expressões escritas em arquivo e gravando resultados
+##### Utilizando expressões escritas em arquivo e gravando resultados
 
 |  Comando           | Descrição  |
 | :-----| :-------------|
@@ -49,7 +49,7 @@ Neste caso, os resultados das avaliações das expressões serão escritos no ar
 
 ## Possíveis erros
 
-- Durante a validação da expressõe, os seguintes erros podem ocorrer:
+##### Erros que podem ocorrer durante a validação de expressões
 
 
 `Constante inteira fora do intervalo começando na coluna(n)!`
@@ -85,7 +85,7 @@ Ex.: ((2 % 3) ∗ 8, coluna 13.
 Expressão corresponde a uma linha contendo apenas espaços, cujo final é encontrado na coluna *n*.<br/>
 Ex.: "    ", coluna 4 ou "   (", coluna 4.
 
-- Os seguintes erros podem ocorrer durante o cálculo da expressão
+##### Erros que podem ocorrer durante o cálculo da expressão
 
 `Divisão por zero!` 
 
