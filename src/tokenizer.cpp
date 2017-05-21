@@ -212,10 +212,9 @@ Tokenizer::Result Tokenizer::term()
         result =  integer();
 
         if( result.type == Result::OK ){
+            //Salva número recuperado com string
             std::string num;
             num.insert(num.begin(), it_begin+result.at_col, it_curr_symb);
-
-            std::cout << num;
 
             //Testa se num está no limite de required_int_type
             input_int_type value = std::stoll("3");
@@ -232,7 +231,6 @@ Tokenizer::Result Tokenizer::term()
         }
     }
   
-
     return result;
 }
 
@@ -252,9 +250,8 @@ Tokenizer::Result Tokenizer::integer()
     //Ou seja, todos os "-" serão ignorados
     //Se for ímpar, o número será negativo
     //Ou seja, apenas o último "-" vai ser considerado
-    if(cont % 2 == 1){
+    if(cont % 2 == 1)
         cont-=1;
-    }
 
     auto result =  natural_number();
 
@@ -266,6 +263,7 @@ Tokenizer::Result Tokenizer::integer()
 
 }
 
+//<natural_number> := <digit_excl_zero>,{<digit>}
 Tokenizer::Result Tokenizer::natural_number()
 {
 
@@ -283,15 +281,16 @@ Tokenizer::Result Tokenizer::natural_number()
 }
 
 //TS methods
+
+// <digit_excl_zero> := "1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
 bool Tokenizer::digit_excl_zero()
-{
-   
+{  
     return accept( terminal_symbol_t::TS_NON_ZERO_DIGIT );
 }
 
+// <digit> := "0" | <digit_excl_zero>
 bool Tokenizer::digit()
-{
-    
+{ 
     return (accept( terminal_symbol_t::TS_ZERO ) or digit_excl_zero() );
 }
 
