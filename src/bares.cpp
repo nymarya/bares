@@ -1,14 +1,13 @@
+/**
+ * @file bares.cpp
+ * @authors Gabriel Araújo de Souza e Mayra Dantas de Azevedo
+ * @date 21 Maio 2017
+ * @brief Arquivo com a implementação dos métodos da classe Bares.
+ */
+
 #include "bares.h"
 
-// int Bares::char2int( Token ch){
-//     auto str = ch.value;
-//     char * writable = new char[str.size() + 1];
-//     std::copy(str.begin(), str.end(), writable);
-//     writable[str.size()] = '\0'; 
-
-//     return *writable-'0';
-// }
-
+//<! Resolve uma operação
 Bares::Result Bares::execute( std::string i_n1, std::string i_n2, Token opr){
 
     // resultado final
@@ -67,6 +66,7 @@ Bares::Result Bares::execute( std::string i_n1, std::string i_n2, Token opr){
     
 }
 
+//<! Executa a expressão 
 Bares::Result Bares::evaluate( std::vector<Token> infix ){
 
     infix_to_postfix(infix);
@@ -93,6 +93,8 @@ Bares::Result Bares::evaluate( std::vector<Token> infix ){
     return result;
 }
 
+//<! Converte a expressão com notação infixa para o
+//   correspondente em representação posfixa
 void Bares::infix_to_postfix( std::vector<Token> infix_ ){
     //Stores the postfix expression
     std::string postfix = "";
@@ -163,27 +165,33 @@ void Bares::infix_to_postfix( std::vector<Token> infix_ ){
 
 }
 
+//<! Verifica se é operador
 bool Bares::is_operator(Token c){
     
     return c.type == Token::token_t::OPERATOR;
 }
 
+//<! Verifica se é operando
 bool Bares::is_operand( Token c){
     return c.type == Token::token_t::OPERAND;
 }
 
+//<! Verifica se é um parênteses aberto
 bool Bares::is_opening_scope( std::string c){
     return (c == "(");
 }
 
+//<! Verifica se é um parênteses fechado
 bool Bares::is_closing_scope(std::string c){
     return (c == ")");
 }
 
+//<! Verifica se é associação à direita
 bool Bares::is_right_association(std::string c){
     return c == "^";
 }
 
+//<! Pega as precedências
 int Bares::get_precedence( std::string c){
     int weigth = 0;
     const char *d = c.c_str();
@@ -216,6 +224,7 @@ int Bares::get_precedence( std::string c){
     return weigth;
 }
 
+//<! Verifica qual a maior precedência
 bool Bares::has_higher_precedence( std::string op1, std::string op2){
 
     auto p1 = get_precedence( op1 ); //Top

@@ -1,3 +1,10 @@
+/**
+ * @file tokenizer.h
+ * @authors Gabriel Araújo de Souza e Mayra Dantas de Azevedo
+ * @date 21 Maio 2017
+ * @brief Arquivo contendo as definições da classe Tokenizer.
+ */
+
 #ifndef _TOKENIZER_H_
 #define _TOKENIZER_H_
 
@@ -5,8 +12,8 @@
 #include <iterator> // std::distance()
 #include <vector>   // std::vector
 #include <sstream>  // std::istringstream
-#include <stdexcept>
-#include <string>
+#include <stdexcept> //throw
+#include <string>   // std::string
 #include <limits> //numeric_limits
 
 #include "token.h"  // struct Token.
@@ -21,16 +28,23 @@
  *   <digit_excl_zero> := "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
  *   <digit>           := "0"| <digit_excl_zero>;
  */
+
+/**
+ * @brief      Classe para Tokenizer
+ */
 class Tokenizer
 {
     public:
-        /// This class represents the result of the parsing operation.
+        
+        /**
+         * @brief      Representa um resultado para a operação parse
+         */
         struct Result
         {
             //=== Alias
             typedef size_t size_type; //<! Used for column location.
 
-            // List of possible syntax errors.
+            //<! Lista de possíveis erros de sintaxe.
             enum code_t {
                     OK = 0,
                     UNEXPECTED_END_OF_EXPRESSION,
@@ -41,11 +55,16 @@ class Tokenizer
                     INTEGER_OUT_OF_RANGE
             };
 
-            //=== Members (public).
-            code_t type;      //<! Error code.
+            //=== Membros (público).
+            code_t type;      //<! Código de Erro.
             size_type at_col; //<! Guarda a coluna do erro.
 
-            // Por padrão, o resultado é positivo.
+            /**
+             * @brief      Construtor do Result
+             *
+             * @param[in]  type_  O tipo
+             * @param[in]  col_   A coluna de erro
+             */
             explicit Result( code_t type_=OK , size_type col_=0u )
                     : type{ type_ }
                     , at_col{ col_ }
@@ -57,25 +76,59 @@ class Tokenizer
         typedef long long int input_int_type;
 
         //==== Public interface
-        /// Recebe uma expressão, realiza o parsing e retorna o resultado.
+        
+        /**
+         * @brief      Recebe uma expressão, realiza o parsing e retorna o resultado.
+         *
+         * @param[in]  e_    Expressão
+         *
+         * @return     Um Result sobre a expressão
+         */
         Result parse( std::string e_ );
-        /// Retorna a lista de tokens.
+        
+        /**
+         * @brief      Pega a lista de Tokens
+         *
+         * @return     A lista de Tokens
+         */
         std::vector< Token > get_tokens( void ) const;
 
         //==== Special methods
-        /// Construtor default.
+        
+        /**
+         * @brief      Construtor Default
+         */
         Tokenizer() = default;
+
+        /**
+         * @brief      Destroi o objeto
+         */
         ~Tokenizer() = default;
-        /// Desligar cópia e atribuição.
-        Tokenizer( const Tokenizer & ) = delete;  // Construtor cópia.
-        Tokenizer & operator=( const Tokenizer & ) = delete; // Atribuição.
+        
+        /**
+         * @brief      Construtor Cópia
+         *
+         * @param[in]  <unnamed>  O que se deseja copiar
+         */
+        Tokenizer( const Tokenizer & ) = delete;
+
+        /**
+         * @brief      Operador de atribuição
+         *
+         * @param[in]  <unnamed>  O que se deseja atribuir
+         *
+         * @return     Um Tokenizer com a atribuição
+         */
+        Tokenizer & operator=( const Tokenizer & ) = delete;
 
     private:
         //=== Aliases
         static constexpr bool SUCCESS{ true };
         static constexpr bool FAILURE{ false };
 
-        // Terminal symbols table
+        /**
+         * @brief      Tabelas de símbolos
+         */
         enum class terminal_symbol_t{  // The symbols:-
             TS_PLUS,	         //<! "+"
             TS_MINUS,	         //<! "-"
@@ -94,29 +147,127 @@ class Tokenizer
         };
 
         //==== Private members.
-        std::string expr;                //<! The expression to be parsed
-        std::string::iterator it_curr_symb; //<! Pointer to the current char inside the expression.
-        std::vector< Token > token_list; //<! Resulting list of tokens extracted from the expression.
+        std::string expr;                //<! A expressão para ser parsed
+        std::string::iterator it_curr_symb; //<! Ponteiro para o atual char da expressão.
+        std::vector< Token > token_list; //<! Lista de Tokens final extraída da expressão.
 
-        /// Converte de caractere para código do símbolo terminal.
+        /**
+         * @brief      Converte o caractere para um dos símbolos da tabela
+         *
+         * @param[in]  <unnamed>  Caractere a ser convertido
+         *
+         * @return     Retorna um símbolo da tabela
+         */
         terminal_symbol_t lexer( char ) const;
+
+        /**
+         * @brief      converte para uma string o símbolo recebido
+         *
+         * @param[in]  s_    O símbolo a ser convertido
+         *
+         * @return     Uma string com o simbolo equivalente recebido 
+         */
         std::string token_str( terminal_symbol_t s_ ) const;
 
         //=== Support methods.
-        void next_symbol( void );                // Advances iterator to the next char in the expression.
-        bool peek( terminal_symbol_t s_ ) const; // Peeks the current character.
-        bool accept( terminal_symbol_t s_ );     // Tries to accept the requested symbol.
-        bool expect( terminal_symbol_t );        // Skips any WS/Tab and tries to accept the requested symbol.
-        void skip_ws( void );                    // Skips any WS/Tab ans stops at the next character.
-        bool end_input( void ) const;            // Checks whether we reached the end of the expression string.
-        input_int_type str_to_int( std::string );// Converts a string into an integer.
+        
+        /**
+         * @brief      Avança o iterador para o próximo caractere da expressão.
+         */
+        void next_symbol( void );
+
+        /**
+         * @brief      Verifica se o caractere atual é igual ao simbolo solicitado
+         *
+         * @param[in]  s_    { parameter_description }
+         *
+         * @return     True se foren iguais, False caso contrário
+         */
+        bool peek( terminal_symbol_t s_ ) const;
+
+        /**
+         * @brief      Tenta aceitar o símbolo solicitado
+         *
+         * @param[in]  s_    Símbolo solicitado
+         *
+         * @return     True se for aceito, False caso contrário
+         */
+        bool accept( terminal_symbol_t s_ );
+
+        /**
+         * @brief   Ignora qualquer espaço/Tab e tenta aceitar o símbolo solicitado.
+         *          se for aceito, avança para o próximo caractere
+         *
+         * @param[in]  <unnamed>  Símbolo solicitado
+         *
+         * @return     True se aceito, False caso contrário
+         */
+        bool expect( terminal_symbol_t );
+
+        /**
+         * @brief      Ignora qualquer espaço/Tab e para no próximo caractere
+         */
+        void skip_ws( void );
+
+        /**
+         * @brief     Verifica se chegamos ao final da seqüência de expressão
+         *
+         * @return     True se chegou ao final da expressão, False caso contrário
+         */
+        bool end_input( void ) const;
+
+        /**
+         * @brief      Converte String para inteiro
+         *
+         * @param[in]  <unnamed>  A string a ser convertida
+         *
+         * @return     O valor inteiro correspondente a string
+         */
+        input_int_type str_to_int( std::string );
 
         //=== NTS methods.
+        
+        /**
+         * @brief      Verifica se é uma expressão
+         *
+         * @return     Um Result com a expressão
+         */
         Result expression();
+
+        /**
+         * @brief      Verifica se é um termo
+         *
+         * @return     Um Result com o termo
+         */
         Result term();
+
+        /**
+         * @brief      Verifica se é um inteiro
+         *
+         * @return     Result com o inteiro
+         */
         Result integer();
+
+        /**
+         * @brief      Verifica se é um núemro natural
+         *
+         * @return     Result com o número natural
+         */
         Result natural_number();
+
+        /**
+         * @brief      Verifica se é um dígito diferente de zero
+         *
+         * @return     True se for um dígito diferente de zero,
+         *             False caso contrário
+         */
         bool digit_excl_zero();
+
+        /**
+         * @brief      Verifica se é um dígito
+         *
+         * @return     True se for dígito, false caso contrário
+         */
         bool digit();
 };
 

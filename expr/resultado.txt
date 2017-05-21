@@ -23,79 +23,79 @@ expressões lidas:
 ' -----3 '
 ===============================================================================
 >>> Parsing "10000000 - 2"
->>> Integer constant out of range beginning at column (0)!
+>>> Integer constant out of range beginning at column (1)!
 "10000000 - 2"
- ^            
+ ^           
 ===============================================================================
 >>> Parsing "2+"
->>> Ill formed integer at column (2)!
+>>> Missing <term> at column (3)!
 "2+"
-   ^
+   
 ===============================================================================
 >>> Parsing "3 * d"
->>> Ill formed integer at column (4)!
+>>> Ill formed integer at column (5)!
 "3 * d"
-     ^ 
+     ^
 ===============================================================================
 >>> Parsing "2 = 3"
->>> Extraneous symbol after valid expression found at column (2)!
+>>> Extraneous symbol after valid expression found at column (3)!
 "2 = 3"
-   ^   
+   ^  
 ===============================================================================
 >>> Parsing "2.3 + 4"
->>> Extraneous symbol after valid expression found at column (1)!
+>>> Extraneous symbol after valid expression found at column (2)!
 "2.3 + 4"
-  ^      
-===============================================================================
->>> Parsing "2 * 3 4"
->>> Extraneous symbol after valid expression found at column (6)!
-"2 * 3 4"
-       ^ 
-===============================================================================
->>> Parsing "2 ** 3"
->>> Ill formed integer at column (3)!
-"2 ** 3"
-    ^   
-===============================================================================
->>> Parsing "%5 * 10"
->>> Ill formed integer at column (0)!
-"%5 * 10"
- ^       
-===============================================================================
->>> Parsing "*5 * 10"
->>> Ill formed integer at column (0)!
-"*5 * 10"
- ^       
-===============================================================================
->>> Parsing "(2+3)*/(1-4)"
->>> Ill formed integer at column (6)!
-"(2+3)*/(1-4)"
-       ^      
-===============================================================================
->>> Parsing "(-3*4)(10*5)"
->>> Extraneous symbol after valid expression found at column (6)!
-"(-3*4)(10*5)"
-       ^      
-===============================================================================
->>> Parsing "2 - 4)"
->>> Extraneous symbol after valid expression found at column (5)!
-"2 - 4)"
-      ^ 
-===============================================================================
->>> Parsing "2) - 4"
->>> Extraneous symbol after valid expression found at column (1)!
-"2) - 4"
   ^     
 ===============================================================================
->>> Parsing ")2 - 4"
->>> Ill formed integer at column (0)!
-")2 - 4"
+>>> Parsing "2 * 3 4"
+>>> Extraneous symbol after valid expression found at column (7)!
+"2 * 3 4"
+       ^
+===============================================================================
+>>> Parsing "2 ** 3"
+>>> Ill formed integer at column (4)!
+"2 ** 3"
+    ^  
+===============================================================================
+>>> Parsing "%5 * 10"
+>>> Ill formed integer at column (1)!
+"%5 * 10"
  ^      
+===============================================================================
+>>> Parsing "*5 * 10"
+>>> Ill formed integer at column (1)!
+"*5 * 10"
+ ^      
+===============================================================================
+>>> Parsing "(2+3)*/(1-4)"
+>>> Ill formed integer at column (7)!
+"(2+3)*/(1-4)"
+       ^     
+===============================================================================
+>>> Parsing "(-3*4)(10*5)"
+>>> Extraneous symbol after valid expression found at column (7)!
+"(-3*4)(10*5)"
+       ^     
+===============================================================================
+>>> Parsing "2 - 4)"
+>>> Extraneous symbol after valid expression found at column (6)!
+"2 - 4)"
+      ^
+===============================================================================
+>>> Parsing "2) - 4"
+>>> Extraneous symbol after valid expression found at column (2)!
+"2) - 4"
+  ^    
+===============================================================================
+>>> Parsing ")2 - 4"
+>>> Ill formed integer at column (1)!
+")2 - 4"
+ ^     
 ===============================================================================
 >>> Parsing "((2%3) * 8"
 >>> Missing closing ")" at column (10)!
 "((2%3) * 8"
-           ^
+          ^
 ===============================================================================
 >>> Parsing "3/(1-1)"
 >>> Expression SUCCESSFULLY parsed!
@@ -128,8 +128,8 @@ expressões lidas:
 >>> Result is: 16
 ===============================================================================
 >>> Parsing "-----3"
->>> Ill formed integer at column (1)!
-"-----3"
-  ^     
+>>> Expression SUCCESSFULLY parsed!
+>>> Tokens: { <-3,OPERAND> }
+>>> Result is: 
 
 >>> Normal parsing...

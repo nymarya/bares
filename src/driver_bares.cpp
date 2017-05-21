@@ -1,3 +1,11 @@
+/**
+ * @file driver_bares.cpp
+ * @authors Gabriel Araújo de Souza e Mayra Dantas de Azevedo
+ * @date 21 Maio 2017
+ * @brief Arquivo que utiliza dos métodos implementados para resolver 
+ *        uma expressão enviada pelo usuário.
+ */
+
 /*!
  * Infix to postfix conversion in C++
  * Input Postfix expression must be in a desired format.
@@ -11,12 +19,18 @@
 #include <stack>     // stack
 #include <string>    // string
 #include <iomanip>   //setfill, setw
+#include <typeinfo>
+
 #include "tokenizer.h"
 #include "bares.h"
-#include <typeinfo>
 
 using value_type = long int;
 
+/**
+ * @brief      Imprime menssagens de erro do Bares
+ *
+ * @param[in]  result  O Resultado do bares
+ */
 void print_msg_bares ( const Bares::Result & result)
 {
     switch ( result.type_b )
@@ -33,6 +47,12 @@ void print_msg_bares ( const Bares::Result & result)
     }
 }
 
+/**
+ * @brief      Imprime menssagens de erro do Tokenizer
+ *
+ * @param[in]  result  The resultado do Tokenizer
+ * @param[in]  str     A string da posição do erro
+ */
 void print_msg( const Tokenizer::Result & result, std::string str )
 {
     std::string error_indicator( str.size(), ' ');
@@ -68,7 +88,11 @@ void print_msg( const Tokenizer::Result & result, std::string str )
     std::cout << " " << error_indicator << std::endl;
 }
 
-
+/**
+ * @brief      Programa principal
+ *
+ * @return     Execução terminada
+ */
 int main()
 {
     //lista com as expressões

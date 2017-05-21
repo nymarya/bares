@@ -1,6 +1,13 @@
+/**
+ * @file tokenizer.cpp
+ * @authors Gabriel Araújo de Souza e Mayra Dantas de Azevedo
+ * @date 21 Maio 2017
+ * @brief Arquivo contendo as implementações da classe Tokenizer.
+ */
+
 #include "../include/tokenizer.h"
 
-/// Converts a valid character to the corresponding terminal symbol.
+/// Converte um caractere válido para seu correspondente  em terminal symbol.
 Tokenizer::terminal_symbol_t  Tokenizer::lexer( char c_ ) const
 {
     switch( c_ )
@@ -31,7 +38,7 @@ Tokenizer::terminal_symbol_t  Tokenizer::lexer( char c_ ) const
 }
 
 
-/// Convert a terminal symbol into its corresponding string representation.
+/// Converte um terminal symbol para seu correspondente em string.
 std::string Tokenizer::token_str( terminal_symbol_t s_ ) const
 {
     switch( s_ )
@@ -52,20 +59,20 @@ std::string Tokenizer::token_str( terminal_symbol_t s_ ) const
     }
 }
 
-/// Consumes a valid character from the expression being parsed.
+//<! Consome um caractere válido para a expressão a ser parsed.
 void Tokenizer::next_symbol( void )
 {
-    // Get a valid symbol for processing
+    //<! Pega um símbolo válido para processar
     std::advance( it_curr_symb, 1 );
 }
 
-/// Verifies whether the current symbol is equal to the terminal symbol requested.
+//<! Verifica se o caractere atual é igual ao simbolo solicitado
 bool Tokenizer::peek( terminal_symbol_t c_ ) const
 {
     return ( not end_input() ) and lexer( *it_curr_symb ) == c_;
 }
 
-/// Tries to match the current character to a symbol passed as argument.
+//<!  Tenta aceitar o símbolo solicitado
 bool Tokenizer::accept( terminal_symbol_t c_ )
 {
     if ( peek(c_))
@@ -77,15 +84,15 @@ bool Tokenizer::accept( terminal_symbol_t c_ )
     return false;
 }
 
-/// Verify whether the next valid symbol is the one expected; if it is so, the method accepts it.
+//<! Ignora qualquer espaço/Tab e tenta aceitar o símbolo solicitado.
+// !  se for aceito, avança para o próximo caractere
 bool Tokenizer::expect( terminal_symbol_t c_ )
 {
     skip_ws();
     return accept(c_); // Stub
 }
 
-
-/// Ignores any white space or tabs in the expression until reach a valid symbol or end of input.
+//<! Ignora qualquer espaço/Tab e para no próximo caractere
 void Tokenizer::skip_ws( void )
 {
     //<! Avança enquanto houver espaço ou tab
@@ -97,23 +104,23 @@ void Tokenizer::skip_ws( void )
     }
 }
 
-/// Checks whether we reached the end of the expression string.
+//<! Verifica se chegamos ao final da seqüência de expressão
 bool Tokenizer::end_input( void ) const
 {
     return it_curr_symb == expr.end(); // Stub
 }
 
-/// Converts from string to integer.
+/// Converte de String para inteiro
 Tokenizer::input_int_type str_to_int( std::string input_str_ )
 {
-    // Creating input stream.
+    // Creaando uma string de entrada
     std::istringstream iss( input_str_ );
 
-    // Resulting value.
+    // Valor resultante.
     Tokenizer::input_int_type value;
-    iss >> value; // Ignore trailling white space.
+    iss >> value; // Ignore os espaços em branco
 
-    // Check for error during convertion.
+    // Check erro durante a converção
     if ( iss.fail() )
         throw std::runtime_error( "str_to_int(): Erro, illegal integer format." );
 
@@ -122,7 +129,8 @@ Tokenizer::input_int_type str_to_int( std::string input_str_ )
 
 //=== NTS methods.
 
-//<expr> := <term>,{ ("+"|"-"|"*"|"/"|"%"|"^"),<term> }
+//<! <expr> := <term>,{ ("+"|"-"|"*"|"/"|"%"|"^"),<term> }
+//<! Resolve a expressão
 Tokenizer::Result Tokenizer::expression()
 {
     //ignora espaço em branco
@@ -187,7 +195,8 @@ Tokenizer::Result Tokenizer::expression()
     return result;
 }
 
-//<term> := "(",<expr>,")" | <integer>
+//<! <term> := "(",<expr>,")" | <integer>
+//<! Verifica se é termo
 Tokenizer::Result Tokenizer::term()
 {
     skip_ws();
@@ -233,6 +242,8 @@ Tokenizer::Result Tokenizer::term()
     return result;
 }
 
+//<! <integer> := 0 | ["-"],<natural_number>;
+//<! verifica se é inteiro
 Tokenizer::Result Tokenizer::integer()
 {
     if ( accept(terminal_symbol_t::TS_ZERO) )
@@ -263,6 +274,7 @@ Tokenizer::Result Tokenizer::integer()
 }
 
 //<natural_number> := <digit_excl_zero>,{<digit>}
+//<! verifica se é número natural
 Tokenizer::Result Tokenizer::natural_number()
 {
     auto result = digit_excl_zero();
@@ -280,26 +292,21 @@ Tokenizer::Result Tokenizer::natural_number()
 
 //TS methods
 
-// <digit_excl_zero> := "1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
+//<! <digit_excl_zero> := "1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
+//<! Verifica se é dígito exceto zero
 bool Tokenizer::digit_excl_zero()
 {  
     return accept( terminal_symbol_t::TS_NON_ZERO_DIGIT );
 }
 
-// <digit> := "0" | <digit_excl_zero>
+//<! <digit> := "0" | <digit_excl_zero>
+//<! Verifica se é dígito
 bool Tokenizer::digit()
 { 
     return (accept( terminal_symbol_t::TS_ZERO ) or digit_excl_zero() );
 }
 
-/*!
- * This is the Tokenizer's entry point.
- * This method tries to (recursivelly) validate the expression.
- * During this process, we also stored the tokens into a container.
- *
- * \param e_ The string with the expression to parse.
- * \return The parsing result.
- */
+//<! Recebe uma expressão, realiza o parsing e retorna o resultado.
 Tokenizer::Result
 Tokenizer::parse( std::string e_ )
 {
@@ -334,7 +341,8 @@ Tokenizer::parse( std::string e_ )
 
 
 }
-/// Return the list of tokens, which is the by-product created during the syntax analysis.
+
+//<! Pega a lista de Tokens
 std::vector< Token >
 Tokenizer::get_tokens( void ) const
 {
@@ -343,4 +351,4 @@ Tokenizer::get_tokens( void ) const
 
 
 
-//==========================[ End of parse.cpp ]==========================//
+//==========================[ Fim do parse.cpp ]==========================//
