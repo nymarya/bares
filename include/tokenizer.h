@@ -7,6 +7,7 @@
 #include <sstream>  // std::istringstream
 #include <stdexcept>
 #include <string>
+#include <limits> //numeric_limits
 
 #include "token.h"  // struct Token.
 

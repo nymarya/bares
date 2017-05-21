@@ -1,5 +1,4 @@
 #include "../include/tokenizer.h"
-#include <limits> //numeric_limits
 
 /// Converts a valid character to the corresponding terminal symbol.
 Tokenizer::terminal_symbol_t  Tokenizer::lexer( char c_ ) const

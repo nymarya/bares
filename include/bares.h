@@ -16,6 +16,28 @@ class Bares{
 
 	using value_type = long int;
 
+	public:
+    /// This class represents the result of the execute operation.
+    struct Result
+    {
+        // List of possible syntax errors.
+        enum code_t {
+            OK = 0,
+            DIVISION_BY_ZERO,
+            NUMERIC_OVERFLOW
+        };
+
+        //=== Members (public).
+        std::string value_b; //<! Guarda o resultado da operação.
+        code_t type_b;      //<! Error code.
+
+        /// Construtor default.
+        explicit Result( std::string v_="", code_t t_ = code_t::OK )
+            : value_b( v_ )
+            , type_b( t_ )
+        {/* empty */}     
+    };
+
 	private:
 		
 		std::vector<Token> expression;
@@ -52,11 +74,11 @@ class Bares{
 		void infix_to_postfix( std::vector<Token> infix_ );
 
 		/// Executes the operation op
-		std::string execute( std::string n1, std::string n2, Token opr);
+		Bares::Result execute( std::string n1, std::string n2, Token opr);
 		
 
 		/// Evaluate postfix expression
-		int evaluate(std::vector<Token>);
+		Bares::Result evaluate(std::vector<Token>);
 };
 
 
