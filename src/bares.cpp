@@ -9,7 +9,7 @@
 //     return *writable-'0';
 // }
 
-std::string Bares::execute( std::string i_n1, std::string i_n2, Token opr){
+Bares::Result Bares::execute( std::string i_n1, std::string i_n2, Token opr){
 
     // resultado final
     std::string fim;
@@ -20,6 +20,7 @@ std::string Bares::execute( std::string i_n1, std::string i_n2, Token opr){
     int n2 = std::stoi (i_n2,&sz);
 
     value_type result(0);
+    Bares::Result v;
 
     //converte o Token para const char
     const char *d = (opr.value).c_str();
@@ -29,13 +30,17 @@ std::string Bares::execute( std::string i_n1, std::string i_n2, Token opr){
                    break;
         case '*' : result =  n1 * n2;
                    break;
-        case '/' : if ( n2 == 0 )
-                       throw std::runtime_error( "Division by zero" );
-                   result = n1/n2;
+        case '/' : if ( n2 == 0 ){
+                       v.type_b = Bares::Result::DIVISION_BY_ZERO;
+                       return v;
+                   }else
+                       result = n1/n2;
                    break;
-        case '%' : if ( n2 == 0 )
-                       throw std::runtime_error( "Division by zero" );
-                   result = n1%n2;
+        case '%' : if ( n2 == 0 ){
+                        v.type_b = Bares::Result::DIVISION_BY_ZERO;
+                        return v;
+                   }else
+                       result = n1%n2;
                    break;
         case '+' : result = n1 + n2;
                    break;
@@ -44,16 +49,29 @@ std::string Bares::execute( std::string i_n1, std::string i_n2, Token opr){
         default: assert(false);
     }
 
-    std::stringstream ss;
-    ss << result;
-    return ss.str();
+    //Testa se num está no limite de required_int_type
+    if( result <= std::numeric_limits< Tokenizer::required_int_type >::max() 
+        and result >= std::numeric_limits< Tokenizer::required_int_type >::min()){
+
+        //converte para string
+        std::stringstream ss;
+        ss << result;
+        v.value_b = ss.str();
+        v.type_b = Bares::Result::OK;
+        
+    } else
+        v.type_b = Bares::Result::NUMERIC_OVERFLOW;
+
+    return v;
+        
     
 }
 
-int Bares::evaluate( std::vector<Token> infix ){
+Bares::Result Bares::evaluate( std::vector<Token> infix ){
 
     infix_to_postfix(infix);
     std::stack< std::string > s;
+    Bares::Result result;
 
     for( Token ch: expression){
         if( is_operand(ch)) s.push(ch.value);
@@ -62,17 +80,17 @@ int Bares::evaluate( std::vector<Token> infix ){
             auto op2 = s.top(); s.pop();
             auto op1 = s.top(); s.pop();
 
-            auto result = execute(op1, op2, ch);
-            s.push( result );
+            result = execute(op1, op2, ch);
+            if ( result.type_b != Bares::Result::OK )
+                return result;
+            else
+                s.push( result.value_b );
         }
         else {
             assert(false);
         }
     }
-    //converte string para inteiro
-    std::string::size_type sz;   // alias of size_t
-    int n1 = std::stoi (s.top(),&sz);
-    return n1; 
+    return result;
 }
 
 void Bares::infix_to_postfix( std::vector<Token> infix_ ){

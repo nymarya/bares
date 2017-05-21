@@ -1,19 +1,5 @@
 expressões lidas:
- ' 32767 - 32768 + 3 '
-' 5 + -32766 '
-' 5 + -32769 '
-' 12 + 3 '
-' -3+-5+-6 '
-' 12 + 3     -3 + -34 '
-' +12 '
-' 1.3 * 4 '
-' a + 4 '
-' 2 ^ 3 * 10/ -5 '
-' ((2 % 3) * 8 '
-' 2 + 3 4 '
-' (-3*4)(10*5) '
-' 5 % 3 +4 '
-' 10000000 - 2 '
+ ' 10000000 - 2 '
 ' 2+ '
 ' 3 * d '
 ' 2 = 3 '
@@ -23,78 +9,18 @@ expressões lidas:
 ' %5 * 10 '
 ' *5 * 10 '
 ' (2+3)*/(1-4) '
-' (2+4)*4 '
-' 	 '
-===============================================================================
->>> Parsing "32767 - 32768 + 3"
->>> Integer constant out of range beginning at column (8)!
-"32767 - 32768 + 3"
-         ^         
-===============================================================================
->>> Parsing "5 + -32766"
->>> Expression SUCCESSFULLY parsed!
->>> Tokens: { <5,OPERAND> <+,OPERATOR> <-32766,OPERAND> }
->>> Result is: -32761
-===============================================================================
->>> Parsing "5 + -32769"
->>> Integer constant out of range beginning at column (4)!
-"5 + -32769"
-     ^      
-===============================================================================
->>> Parsing "12 + 3"
->>> Expression SUCCESSFULLY parsed!
->>> Tokens: { <12,OPERAND> <+,OPERATOR> <3,OPERAND> }
->>> Result is: 15
-===============================================================================
->>> Parsing "-3+-5+-6"
->>> Expression SUCCESSFULLY parsed!
->>> Tokens: { <-3,OPERAND> <+,OPERATOR> <-5,OPERAND> <+,OPERATOR> <-6,OPERAND> }
->>> Result is: -14
-===============================================================================
->>> Parsing "12 + 3     -3 + -34"
->>> Expression SUCCESSFULLY parsed!
->>> Tokens: { <12,OPERAND> <+,OPERATOR> <3,OPERAND> <-,OPERATOR> <3,OPERAND> <+,OPERATOR> <-34,OPERAND> }
->>> Result is: -22
-===============================================================================
->>> Parsing "+12"
->>> Ill formed integer at column (0)!
-"+12"
- ^   
-===============================================================================
->>> Parsing "1.3 * 4"
->>> Extraneous symbol after valid expression found at column (1)!
-"1.3 * 4"
-  ^      
-===============================================================================
->>> Parsing "a + 4"
->>> Ill formed integer at column (0)!
-"a + 4"
- ^     
-===============================================================================
->>> Parsing "2 ^ 3 * 10/ -5"
->>> Expression SUCCESSFULLY parsed!
->>> Tokens: { <2,OPERAND> <^,OPERATOR> <3,OPERAND> <*,OPERATOR> <10,OPERAND> </,OPERATOR> <-5,OPERAND> }
->>> Result is: -16
-===============================================================================
->>> Parsing "((2 % 3) * 8"
->>> Missing closing ")" at column (12)!
-"((2 % 3) * 8"
-             ^
-===============================================================================
->>> Parsing "2 + 3 4"
->>> Extraneous symbol after valid expression found at column (6)!
-"2 + 3 4"
-       ^ 
-===============================================================================
->>> Parsing "(-3*4)(10*5)"
->>> Extraneous symbol after valid expression found at column (6)!
-"(-3*4)(10*5)"
-       ^      
-===============================================================================
->>> Parsing "5 % 3 +4"
->>> Expression SUCCESSFULLY parsed!
->>> Tokens: { <5,OPERAND> <%,OPERATOR> <3,OPERAND> <+,OPERATOR> <4,OPERAND> }
->>> Result is: 6
+' (-3*4)(10*5) '
+' 2 - 4) '
+' 2) - 4 '
+' )2 - 4 '
+' ((2%3) * 8 '
+' 3/(1-1) '
+' 10/(3*3^-2) '
+' 20*20000 '
+' 25 / (2+3) * 8 '
+' 5 % 2 ^4 '
+' (5 % 3) ^4 '
+' -----3 '
 ===============================================================================
 >>> Parsing "10000000 - 2"
 >>> Integer constant out of range beginning at column (0)!
@@ -145,3 +71,65 @@ expressões lidas:
 >>> Ill formed integer at column (6)!
 "(2+3)*/(1-4)"
        ^      
+===============================================================================
+>>> Parsing "(-3*4)(10*5)"
+>>> Extraneous symbol after valid expression found at column (6)!
+"(-3*4)(10*5)"
+       ^      
+===============================================================================
+>>> Parsing "2 - 4)"
+>>> Extraneous symbol after valid expression found at column (5)!
+"2 - 4)"
+      ^ 
+===============================================================================
+>>> Parsing "2) - 4"
+>>> Extraneous symbol after valid expression found at column (1)!
+"2) - 4"
+  ^     
+===============================================================================
+>>> Parsing ")2 - 4"
+>>> Ill formed integer at column (0)!
+")2 - 4"
+ ^      
+===============================================================================
+>>> Parsing "((2%3) * 8"
+>>> Missing closing ")" at column (10)!
+"((2%3) * 8"
+           ^
+===============================================================================
+>>> Parsing "3/(1-1)"
+>>> Expression SUCCESSFULLY parsed!
+>>> Tokens: { <3,OPERAND> </,OPERATOR> <(,OPENING SCOPE> <1,OPERAND> <-,OPERATOR> <1,OPERAND> <),CLOSING SCOPE> }
+>>> Division by zero!
+===============================================================================
+>>> Parsing "10/(3*3^-2)"
+>>> Expression SUCCESSFULLY parsed!
+>>> Tokens: { <10,OPERAND> </,OPERATOR> <(,OPENING SCOPE> <3,OPERAND> <*,OPERATOR> <3,OPERAND> <^,OPERATOR> <-2,OPERAND> <),CLOSING SCOPE> }
+>>> Division by zero!
+===============================================================================
+>>> Parsing "20*20000"
+>>> Expression SUCCESSFULLY parsed!
+>>> Tokens: { <20,OPERAND> <*,OPERATOR> <20000,OPERAND> }
+>>> Numeric overflow error!
+===============================================================================
+>>> Parsing "25 / (2+3) * 8"
+>>> Expression SUCCESSFULLY parsed!
+>>> Tokens: { <25,OPERAND> </,OPERATOR> <(,OPENING SCOPE> <2,OPERAND> <+,OPERATOR> <3,OPERAND> <),CLOSING SCOPE> <*,OPERATOR> <8,OPERAND> }
+>>> Result is: 40
+===============================================================================
+>>> Parsing "5 % 2 ^4"
+>>> Expression SUCCESSFULLY parsed!
+>>> Tokens: { <5,OPERAND> <%,OPERATOR> <2,OPERAND> <^,OPERATOR> <4,OPERAND> }
+>>> Result is: 5
+===============================================================================
+>>> Parsing "(5 % 3) ^4"
+>>> Expression SUCCESSFULLY parsed!
+>>> Tokens: { <(,OPENING SCOPE> <5,OPERAND> <%,OPERATOR> <3,OPERAND> <),CLOSING SCOPE> <^,OPERATOR> <4,OPERAND> }
+>>> Result is: 16
+===============================================================================
+>>> Parsing "-----3"
+>>> Ill formed integer at column (1)!
+"-----3"
+  ^     
+
+>>> Normal parsing...

@@ -17,7 +17,21 @@
 
 using value_type = long int;
 
-
+void print_msg_bares ( const Bares::Result & result)
+{
+    switch ( result.type_b )
+    {
+        case Bares::Result::DIVISION_BY_ZERO:
+            std::cout << ">>> Division by zero!\n";
+            break;
+        case Bares::Result::NUMERIC_OVERFLOW:
+            std::cout << ">>> Numeric overflow error!\n";
+            break;
+        default:
+            std::cout << ">>> Unhandled error found!\n";
+            break;
+    }
+}
 
 void print_msg( const Tokenizer::Result & result, std::string str )
 {
@@ -97,8 +111,13 @@ int main()
             //Aqui converteria a lista para <string>. Ou não.....
             //Aqui usaria o bares
             Bares bares;
-            auto result = bares.evaluate( lista );
-            std::cout << ">>> Result is: " << result << std::endl;
+            auto result_ = bares.evaluate( lista );
+
+            //imprimir mensagem de error
+            if ( result_.type_b != Bares::Result::OK )
+                print_msg_bares( result_ );
+            else
+                std::cout << ">>> Result is: " << result_.value_b << std::endl;
         }
 
     }
