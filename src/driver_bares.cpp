@@ -21,10 +21,10 @@ using value_type = long int;
 
 void print_msg( const Tokenizer::Result & result, std::string str )
 {
-    std::string error_indicator( str.size()+1, ' ');
+    std::string error_indicator( str.size(), ' ');
 
     // Have we got a parsing error?
-    error_indicator[result.at_col] = '^';
+    error_indicator[result.at_col -1] = '^';
     switch ( result.type )
     {
         case Tokenizer::Result::UNEXPECTED_END_OF_EXPRESSION:

@@ -178,9 +178,9 @@ Tokenizer::Result Tokenizer::expression()
         }
 
         result = term();
-        if ( result.type != Result::OK and result.type != Result::INTEGER_OUT_OF_RANGE)
+        if ( result.type != Result::OK and result.type != Result::INTEGER_OUT_OF_RANGE and end_input())
         {
-            //result.type = Result::MISSING_TERM;
+            result.type = Result::MISSING_TERM;
             return result;
         }
     }
@@ -194,7 +194,7 @@ Tokenizer::Result Tokenizer::term()
     skip_ws();
     std::string::iterator it_begin =  it_curr_symb;
 
-    Result result = Result( Result::MISSING_TERM, std::distance( expr.begin(), it_curr_symb) );
+    Result result = Result( Result::MISSING_TERM, std::distance( expr.begin(), it_curr_symb) +1 );
     //Pode vir um "("
     if( expect(terminal_symbol_t::TS_OPENING_SCOPE)){
         token_list.push_back( 
@@ -226,7 +226,7 @@ Tokenizer::Result Tokenizer::term()
                 
             } else{
                 result.type = Result::INTEGER_OUT_OF_RANGE;
-                result.at_col = std::distance( expr.begin(), it_begin);
+                result.at_col = std::distance( expr.begin(), it_begin) + 1;
             }
         }
     }
@@ -276,7 +276,7 @@ Tokenizer::Result Tokenizer::natural_number()
         return Result( Result::OK );
     }
 
-    return Result( Result::ILL_FORMED_INTEGER, std::distance( expr.begin(), it_curr_symb) );
+    return Result( Result::ILL_FORMED_INTEGER, std::distance( expr.begin(), it_curr_symb) +1);
 }
 
 //TS methods
@@ -327,7 +327,7 @@ Tokenizer::parse( std::string e_ )
         skip_ws();
         if( not end_input()){
             token_list.clear();
-            return Result( Result::EXTRANEOUS_SYMBOL, std::distance(expr.begin(), it_curr_symb));
+            return Result( Result::EXTRANEOUS_SYMBOL, std::distance(expr.begin(), it_curr_symb) + 1);
         }
 
     }
