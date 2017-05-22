@@ -208,10 +208,12 @@ Tokenizer::Result Tokenizer::term()
         token_list.push_back( 
                            Token( token_str(terminal_symbol_t::TS_OPENING_SCOPE), Token::token_t::OPENING_SCOPE));
         result = expression();
-        //result = Result( Result::OK, std::distance( expr.begin(), it_curr_symb) );
+        
+        //Se não houver erro na expressão, deve vir ")"
         if(result.type == Result::OK){
             if( not expect(terminal_symbol_t::TS_CLOSING_SCOPE))
                 return Result( Result::MISSING_CLOSING_PARENTHESIS, std::distance( expr.begin(), it_curr_symb) );
+            
             //Se for ")", adiciona à lista de tokens
             token_list.push_back( 
                            Token( token_str(terminal_symbol_t::TS_CLOSING_SCOPE), Token::token_t::CLOSING_SCOPE));
@@ -243,7 +245,7 @@ Tokenizer::Result Tokenizer::term()
 }
 
 //<! <integer> := 0 | ["-"],<natural_number>;
-//<! verifica se é inteiro
+//<! Verifica se é inteiro
 Tokenizer::Result Tokenizer::integer()
 {
     if ( accept(terminal_symbol_t::TS_ZERO) )
@@ -265,7 +267,7 @@ Tokenizer::Result Tokenizer::integer()
 
     auto result =  natural_number();
 
-    // Se o resultado for ok, conta quantos "-" vai ter que pular
+    // Se o resultado for ok, conta quantos "-" vai ter que ignorar
     if(result.type == Result::OK)
         result.at_col = cont;
 
@@ -274,7 +276,7 @@ Tokenizer::Result Tokenizer::integer()
 }
 
 //<natural_number> := <digit_excl_zero>,{<digit>}
-//<! verifica se é número natural
+//<! Verifica se é número natural
 Tokenizer::Result Tokenizer::natural_number()
 {
     auto result = digit_excl_zero();
@@ -310,12 +312,12 @@ bool Tokenizer::digit()
 Tokenizer::Result
 Tokenizer::parse( std::string e_ )
 {
-    // We reset the parsing process each new expression.
-    expr = e_;  // The expression in a string.
-    it_curr_symb = expr.begin(); // Iterator to the 1st character in the expression.
-    token_list.clear(); // Clear the list of tokens.
+    // Por padrão, o processo é reiniciado.
+    expr = e_;  // String com expressão.
+    it_curr_symb = expr.begin(); // Iterador para o primeiro caratere da expressão.
+    token_list.clear(); // Limpa a lista de tokens.
 
-    // Default result.
+    // Resultado padrão.
     Result result( Result::OK );
 
     skip_ws();
@@ -325,11 +327,11 @@ Tokenizer::parse( std::string e_ )
                               std::distance( expr.begin(), it_curr_symb ) );
     }
 
-    // tentar validar a expressão
+    // Tentar validar a expressão
     result = expression();
 
     if( result.type == Result::OK){
-
+        //Tenta detectar símbolo estranho
         skip_ws();
         if( not end_input()){
             token_list.clear();
@@ -342,7 +344,7 @@ Tokenizer::parse( std::string e_ )
 
 }
 
-//<! Pega a lista de Tokens
+//<! Recupera a lista de Tokens
 std::vector< Token >
 Tokenizer::get_tokens( void ) const
 {

@@ -19,7 +19,6 @@
 #include <stack>     // stack
 #include <string>    // string
 #include <iomanip>   //setfill, setw
-#include <typeinfo>
 
 #include "tokenizer.h"
 #include "bares.h"
@@ -127,17 +126,12 @@ int main()
         
             // Recuperar a lista de tokens.
             auto lista = my_parser.get_tokens();
-            std::cout << ">>> Tokens: { ";
-            std::copy( lista.begin(), lista.end(),
-                    std::ostream_iterator< Token >(std::cout, " ") );
-            std::cout << "}\n";
 
-            //Aqui converteria a lista para <string>. Ou não.....
-            //Aqui usaria o bares
+            //Avaliar expressão
             Bares bares;
             auto result_ = bares.evaluate( lista );
 
-            //imprimir mensagem de error
+            //Imprimir mensagem de erro
             if ( result_.type_b != Bares::Result::OK )
                 print_msg_bares( result_ );
             else

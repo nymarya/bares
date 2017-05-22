@@ -14,7 +14,7 @@ Bares::Result Bares::execute( std::string i_n1, std::string i_n2, Token opr){
     std::string fim;
 
     //converte string para inteiro
-    std::string::size_type sz;   // alias of size_t
+    std::string::size_type sz;   // alias size_t
     int n1 = std::stoi (i_n1,&sz);
     int n2 = std::stoi (i_n2,&sz);
 
@@ -48,7 +48,7 @@ Bares::Result Bares::execute( std::string i_n1, std::string i_n2, Token opr){
         default: assert(false);
     }
 
-    //Testa se num está no limite de required_int_type
+    //Testa se está no limite de required_int_type
     if( result <= std::numeric_limits< Tokenizer::required_int_type >::max() 
         and result >= std::numeric_limits< Tokenizer::required_int_type >::min()){
 
@@ -96,13 +96,10 @@ Bares::Result Bares::evaluate( std::vector<Token> infix ){
 //<! Converte a expressão com notação infixa para o
 //   correspondente em representação posfixa
 void Bares::infix_to_postfix( std::vector<Token> infix_ ){
-    //Stores the postfix expression
     std::string postfix = "";
-
-    //Stack to help us convert the exp
     std::stack< std::string > s;
 
-    //Tranverse the expression
+    //Percorre a expressão
     for (Token ch : infix_){
 
         if( is_operand(ch))
@@ -114,7 +111,7 @@ void Bares::infix_to_postfix( std::vector<Token> infix_ ){
                         
         }
         else if ( is_operator(ch) ){
-            //Pops out all the element with higher priority
+            //Remove todos os elementos com prioridade mais alta
             while( not s.empty() and has_higher_precedence(s.top(), ch.value) ){
 
                 Token add;
@@ -125,7 +122,7 @@ void Bares::infix_to_postfix( std::vector<Token> infix_ ){
 
             }
 
-            //the incoming operator always goes into the stack
+            //O operador sempre entra na fila
             s.push(ch.value);
         }
         else if ( is_opening_scope(ch.value) ){
@@ -135,18 +132,18 @@ void Bares::infix_to_postfix( std::vector<Token> infix_ ){
         }
         else if ( is_closing_scope(ch.value) )
         {
-            //pop out all the elemens that are not '('
+            //Remove todos os elementos que não são '('
             while( not is_opening_scope(s.top()) and not s.empty() )
             {
-                //goes to the output
+                //Vai direto para a saída
                 Token add;
                 add.type = Token::token_t::OPERATOR;
                 add.value = s.top();
 
-                expression.push_back(add);    //pops out the element
-                s.pop();
+                expression.push_back(add);    //Insere o novo token
+                s.pop();                      //Remove elemento
             }
-            s.pop(); //remove the '(' from the stack
+            s.pop(); //Remove '(' da pilha
         }
     }
 
@@ -228,10 +225,10 @@ int Bares::get_precedence( std::string c){
 bool Bares::has_higher_precedence( std::string op1, std::string op2){
 
     auto p1 = get_precedence( op1 ); //Top
-    auto p2 = get_precedence( op2 ); //New operator
+    auto p2 = get_precedence( op2 ); //Novo operador
 
-    //special case:
-    //Has the same precedence and is right association
+    //Caso especial:
+    //Tem a mesma precedência e segue a associado pela direita
     if(p1 == p2 and is_right_association( op1 )) 
         return false;
     
