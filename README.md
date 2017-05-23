@@ -58,7 +58,7 @@ O operando que se inicia na coluna *n* está fora da faixa permitida.<br/>
 Ex.: 1000000 − 2, coluna 1.
 
 
-`Faltando <termo> na coluna(n)!` 
+`Faltando <termo> na coluna (n)!` 
 
 A partir da coluna *n* está faltando o resto da expressão .<br/>
 Ex.: 2 +, coluna 4.
