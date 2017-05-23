@@ -46,3 +46,7 @@ T ls::Stack<T>::pop( void ){
 template <typename T>
 T ls::Stack<T>::top() 
 {  return m_data[m_top-1]; }
+
+template <typename T>
+bool ls::Stack<T>::empty() 
+{  return m_top == 0; }

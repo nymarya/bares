@@ -30,6 +30,8 @@ namespace ls{
             void push( const T & value);
             T pop ( void );           //pode lançar std::length_error
             T top( void );  
+
+            bool empty( void );
     };
 }
 
