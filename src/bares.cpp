@@ -91,6 +91,9 @@ Bares::Result Bares::evaluate( std::vector<Token> infix ){
         }
     }
 
+    //Salva o valor final do calculo
+    result.value_b = s.top();
+
     return result;
 }
 

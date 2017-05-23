@@ -1,36 +1,36 @@
->>> Constante inteira fora do intervalo começando na coluna (9)!
+Constante inteira fora do intervalo começando na coluna (9)!
 -32761
->>> Constante inteira fora do intervalo começando na coluna (5)!
+Constante inteira fora do intervalo começando na coluna (5)!
 15
 -14
 -22
->>> Inteiro mal formado na coluna (1)!
->>> Símbolo inesperado após expressão válida encontrado na coluna (2)!
->>> Inteiro mal formado na coluna (1)!
-
+Inteiro mal formado na coluna (1)!
+Símbolo inesperado após expressão válida encontrado na coluna (2)!
+Inteiro mal formado na coluna (1)!
+-3
 -16
->>> Faltando símbolo ")" na coluna (12)!
->>> Símbolo inesperado após expressão válida encontrado na coluna (7)!
->>> Símbolo inesperado após expressão válida encontrado na coluna (7)!
+Faltando símbolo ")" na coluna (12)!
+Símbolo inesperado após expressão válida encontrado na coluna (7)!
+Símbolo inesperado após expressão válida encontrado na coluna (7)!
 6
->>> Constante inteira fora do intervalo começando na coluna (1)!
->>> Faltando <termo> na coluna (3)!
->>> Inteiro mal formado na coluna (5)!
->>> Símbolo inesperado após expressão válida encontrado na coluna (3)!
->>> Símbolo inesperado após expressão válida encontrado na coluna (7)!
->>> Símbolo inesperado após expressão válida encontrado na coluna (2)!
->>> Símbolo inesperado após expressão válida encontrado na coluna (7)!
->>> Inteiro mal formado na coluna (4)!
->>> Inteiro mal formado na coluna (1)!
->>> Inteiro mal formado na coluna (1)!
->>> Inteiro mal formado na coluna (7)!
+Constante inteira fora do intervalo começando na coluna (1)!
+Faltando <termo> na coluna (3)!
+Inteiro mal formado na coluna (5)!
+Símbolo inesperado após expressão válida encontrado na coluna (3)!
+Símbolo inesperado após expressão válida encontrado na coluna (7)!
+Símbolo inesperado após expressão válida encontrado na coluna (2)!
+Símbolo inesperado após expressão válida encontrado na coluna (7)!
+Inteiro mal formado na coluna (4)!
+Inteiro mal formado na coluna (1)!
+Inteiro mal formado na coluna (1)!
+Inteiro mal formado na coluna (7)!
 24
 9
 27
 27
->>> Final inesperado de expressão na coluna (3)!
+Final inesperado de expressão na coluna (3)!
 24
 25
 1008
->>> Divisão por zero!
-
+Divisão por zero!
+20
