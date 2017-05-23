@@ -52,7 +52,7 @@ Neste caso, os resultados das avaliações das expressões serão escritos no ar
 ##### Erros que podem ocorrer durante a validação de expressões
 
 
-`Constante inteira fora do intervalo começando na coluna(n)!`
+`Constante inteira fora do intervalo começando na coluna (n)!`
 
 O operando que se inicia na coluna *n* está fora da faixa permitida.<br/>
 Ex.: 1000000 − 2, coluna 1.
@@ -64,7 +64,7 @@ A partir da coluna *n* está faltando o resto da expressão .<br/>
 Ex.: 2 +, coluna 4.
 
 
-`Símbolo inesperado após expressão válida encontrado na coluna(n)!`
+`Símbolo inesperado após expressão válida encontrado na coluna (n)!`
 
 Existe um sı́mbolo qualquer (válido ou não) que foi encontrado depois que uma expressão completa foi validada, na coluna *n*.<br/>
 Ex.: 2 = 3, coluna 3; ou 2 + 3 4, coluna 7.
@@ -75,12 +75,12 @@ Ex.: 2 = 3, coluna 3; ou 2 + 3 4, coluna 7.
 Expressão contém constante inteira iniciada na coluna *n* que possui sı́mbolo inválido em sua composição.<br/>
 Ex.: − 5, coluna 1; ou ! 3, coluna 1; ou ) 2 + 4, coluna 1.
 
-`Faltando símbolo ")" na coluna(n)!` 
+`Faltando símbolo ")" na coluna (n)!` 
 
 Está faltando um parêntese de fechamento ‘)’ para um parêntese de abertura ‘(’ correspondente, na coluna *n*.<br/>
 Ex.: ((2 % 3) ∗ 8, coluna 13.
 
-`Final inesperado de expressão na coluna(n)!` 
+`Final inesperado de expressão na coluna (n)!` 
 
 Expressão corresponde a uma linha contendo apenas espaços, cujo final é encontrado na coluna *n*.<br/>
 Ex.: "    ", coluna 4 ou "   (", coluna 4.
