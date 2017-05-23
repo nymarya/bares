@@ -90,6 +90,7 @@ Bares::Result Bares::evaluate( std::vector<Token> infix ){
             assert(false);
         }
     }
+
     return result;
 }
 
