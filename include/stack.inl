@@ -38,9 +38,7 @@ T ls::Stack<T>::pop( void ){
     if(m_top == 0) 
         throw std::length_error("[pop()] Cannot recover element from an empty vector.");
 
-    auto result = m_data[--m_top];
-
-    return result;
+    return m_data[--m_top];
 }
 
 template <typename T>
