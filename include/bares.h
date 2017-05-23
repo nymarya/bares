@@ -9,7 +9,7 @@
 #define _BARES_H_
 
 #include <iostream>  //std::cout, std::cin
-#include <stack>     // stack
+#include "stack.hpp"     // stack
 #include <string>    // string
 #include <iomanip>   // std::distance
 #include <cassert>   // assert

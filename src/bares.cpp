@@ -15,8 +15,8 @@ Bares::Result Bares::execute( std::string i_n1, std::string i_n2, Token opr){
 
     //converte string para inteiro
     std::string::size_type sz;   // alias size_t
-    int n1 = std::stoi (i_n1,&sz);
-    int n2 = std::stoi (i_n2,&sz);
+    int n1 = std::stol (i_n1,&sz);
+    int n2 = std::stol (i_n2,&sz);
 
     value_type result(0);
     Bares::Result v;
@@ -70,15 +70,15 @@ Bares::Result Bares::execute( std::string i_n1, std::string i_n2, Token opr){
 Bares::Result Bares::evaluate( std::vector<Token> infix ){
 
     infix_to_postfix(infix);
-    std::stack< std::string > s;
+    ls::Stack< std::string > s;
     Bares::Result result;
 
     for( Token ch: expression){
         if( is_operand(ch)) s.push(ch.value);
 
         else if( is_operator(ch) ){
-            auto op2 = s.top(); s.pop();
-            auto op1 = s.top(); s.pop();
+            auto op2 = s.pop();
+            auto op1 = s.pop();
 
             result = execute(op1, op2, ch);
             if ( result.type_b != Bares::Result::OK )
@@ -101,7 +101,7 @@ Bares::Result Bares::evaluate( std::vector<Token> infix ){
 //   correspondente em representação posfixa
 void Bares::infix_to_postfix( std::vector<Token> infix_ ){
     std::string postfix = "";
-    std::stack< std::string > s;
+    ls::Stack< std::string > s;
 
     //Percorre a expressão
     for (Token ch : infix_){
@@ -120,10 +120,8 @@ void Bares::infix_to_postfix( std::vector<Token> infix_ ){
 
                 Token add;
                 add.type = ch.type;
-                add.value = s.top();
+                add.value = s.pop();
                 expression.push_back(add);
-                s.pop();
-
             }
 
             //O operador sempre entra na fila
@@ -142,10 +140,9 @@ void Bares::infix_to_postfix( std::vector<Token> infix_ ){
                 //Vai direto para a saída
                 Token add;
                 add.type = Token::token_t::OPERATOR;
-                add.value = s.top();
+                add.value = s.pop();
 
                 expression.push_back(add);    //Insere o novo token
-                s.pop();                      //Remove elemento
             }
             s.pop(); //Remove '(' da pilha
         }
@@ -156,10 +153,8 @@ void Bares::infix_to_postfix( std::vector<Token> infix_ ){
         
         Token add;
         add.type = Token::token_t::OPERATOR;
-        add.value = s.top();
+        add.value = s.pop();
         expression.push_back(add);
-
-        s.pop();
     }
 
     
