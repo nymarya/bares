@@ -1,135 +1,174 @@
-expressões lidas:
- ' 10000000 - 2 '
-' 2+ '
-' 3 * d '
-' 2 = 3 '
-' 2.3 + 4 '
-' 2 * 3 4 '
-' 2 ** 3 '
-' %5 * 10 '
-' *5 * 10 '
-' (2+3)*/(1-4) '
-' (-3*4)(10*5) '
-' 2 - 4) '
-' 2) - 4 '
-' )2 - 4 '
-' ((2%3) * 8 '
-' 3/(1-1) '
-' 10/(3*3^-2) '
-' 20*20000 '
-' 25 / (2+3) * 8 '
-' 5 % 2 ^4 '
-' (5 % 3) ^4 '
-' -----3 '
 ===============================================================================
->>> Parsing "10000000 - 2"
->>> Integer constant out of range beginning at column (1)!
-"10000000 - 2"
- ^           
+>>> Analisando "32767 - 32768 + 3"
+>>> Constante inteira fora do intervalo começando na coluna (9)!
+"32767 - 32768 + 3"
+         ^        
 ===============================================================================
->>> Parsing "2+"
->>> Missing <term> at column (3)!
-"2+"
-   
+>>> Analisando "5 + -32766"
+>>> Expressão lida com sucesso!
+>>> Resultado: -32761
 ===============================================================================
->>> Parsing "3 * d"
->>> Ill formed integer at column (5)!
-"3 * d"
-     ^
+>>> Analisando "5 + -32769"
+>>> Constante inteira fora do intervalo começando na coluna (5)!
+"5 + -32769"
+     ^     
 ===============================================================================
->>> Parsing "2 = 3"
->>> Extraneous symbol after valid expression found at column (3)!
-"2 = 3"
-   ^  
+>>> Analisando "12 + 3"
+>>> Expressão lida com sucesso!
+>>> Resultado: 15
 ===============================================================================
->>> Parsing "2.3 + 4"
->>> Extraneous symbol after valid expression found at column (2)!
-"2.3 + 4"
+>>> Analisando "-3+-5+-6"
+>>> Expressão lida com sucesso!
+>>> Resultado: -14
+===============================================================================
+>>> Analisando "12 + 3     -3 + -34"
+>>> Expressão lida com sucesso!
+>>> Resultado: -22
+===============================================================================
+>>> Analisando "+12"
+>>> Inteiro mal formado na coluna (1)!
+"+12"
+ ^  
+===============================================================================
+>>> Analisando "1.3 * 4"
+>>> Símbolo inesperado após expressão válida encontrado na coluna (2)!
+"1.3 * 4"
   ^     
 ===============================================================================
->>> Parsing "2 * 3 4"
->>> Extraneous symbol after valid expression found at column (7)!
-"2 * 3 4"
+>>> Analisando "a + 4"
+>>> Inteiro mal formado na coluna (1)!
+"a + 4"
+ ^    
+===============================================================================
+>>> Analisando "-------3"
+>>> Expressão lida com sucesso!
+>>> Resultado: 
+===============================================================================
+>>> Analisando "2 ^ 3 * 10/ -5"
+>>> Expressão lida com sucesso!
+>>> Resultado: -16
+===============================================================================
+>>> Analisando "((2 % 3) * 8"
+>>> Faltando símbolo ")" na coluna (12)!
+"((2 % 3) * 8"
+            ^
+===============================================================================
+>>> Analisando "2 + 3 4"
+>>> Símbolo inesperado após expressão válida encontrado na coluna (7)!
+"2 + 3 4"
        ^
 ===============================================================================
->>> Parsing "2 ** 3"
->>> Ill formed integer at column (4)!
-"2 ** 3"
-    ^  
-===============================================================================
->>> Parsing "%5 * 10"
->>> Ill formed integer at column (1)!
-"%5 * 10"
- ^      
-===============================================================================
->>> Parsing "*5 * 10"
->>> Ill formed integer at column (1)!
-"*5 * 10"
- ^      
-===============================================================================
->>> Parsing "(2+3)*/(1-4)"
->>> Ill formed integer at column (7)!
-"(2+3)*/(1-4)"
-       ^     
-===============================================================================
->>> Parsing "(-3*4)(10*5)"
->>> Extraneous symbol after valid expression found at column (7)!
+>>> Analisando "(-3*4)(10*5)"
+>>> Símbolo inesperado após expressão válida encontrado na coluna (7)!
 "(-3*4)(10*5)"
        ^     
 ===============================================================================
->>> Parsing "2 - 4)"
->>> Extraneous symbol after valid expression found at column (6)!
-"2 - 4)"
-      ^
+>>> Analisando "5 % 3 +4"
+>>> Expressão lida com sucesso!
+>>> Resultado: 6
 ===============================================================================
->>> Parsing "2) - 4"
->>> Extraneous symbol after valid expression found at column (2)!
-"2) - 4"
-  ^    
+>>> Analisando "10000000 - 2"
+>>> Constante inteira fora do intervalo começando na coluna (1)!
+"10000000 - 2"
+ ^           
 ===============================================================================
->>> Parsing ")2 - 4"
->>> Ill formed integer at column (1)!
-")2 - 4"
- ^     
+>>> Analisando "2+"
+>>> Faltando <termo> na coluna (3)!
+"2+"
+   
 ===============================================================================
->>> Parsing "((2%3) * 8"
->>> Missing closing ")" at column (10)!
-"((2%3) * 8"
-          ^
+>>> Analisando "3 * d"
+>>> Inteiro mal formado na coluna (5)!
+"3 * d"
+     ^
 ===============================================================================
->>> Parsing "3/(1-1)"
->>> Expression SUCCESSFULLY parsed!
->>> Tokens: { <3,OPERAND> </,OPERATOR> <(,OPENING SCOPE> <1,OPERAND> <-,OPERATOR> <1,OPERAND> <),CLOSING SCOPE> }
->>> Division by zero!
+>>> Analisando "2 = 3"
+>>> Símbolo inesperado após expressão válida encontrado na coluna (3)!
+"2 = 3"
+   ^  
 ===============================================================================
->>> Parsing "10/(3*3^-2)"
->>> Expression SUCCESSFULLY parsed!
->>> Tokens: { <10,OPERAND> </,OPERATOR> <(,OPENING SCOPE> <3,OPERAND> <*,OPERATOR> <3,OPERAND> <^,OPERATOR> <-2,OPERAND> <),CLOSING SCOPE> }
->>> Division by zero!
+>>> Analisando "8 - 12u"
+>>> Símbolo inesperado após expressão válida encontrado na coluna (7)!
+"8 - 12u"
+       ^
 ===============================================================================
->>> Parsing "20*20000"
->>> Expression SUCCESSFULLY parsed!
->>> Tokens: { <20,OPERAND> <*,OPERATOR> <20000,OPERAND> }
->>> Numeric overflow error!
+>>> Analisando "2.3 + 4"
+>>> Símbolo inesperado após expressão válida encontrado na coluna (2)!
+"2.3 + 4"
+  ^     
 ===============================================================================
->>> Parsing "25 / (2+3) * 8"
->>> Expression SUCCESSFULLY parsed!
->>> Tokens: { <25,OPERAND> </,OPERATOR> <(,OPENING SCOPE> <2,OPERAND> <+,OPERATOR> <3,OPERAND> <),CLOSING SCOPE> <*,OPERATOR> <8,OPERAND> }
->>> Result is: 40
+>>> Analisando "2 * 3 4"
+>>> Símbolo inesperado após expressão válida encontrado na coluna (7)!
+"2 * 3 4"
+       ^
 ===============================================================================
->>> Parsing "5 % 2 ^4"
->>> Expression SUCCESSFULLY parsed!
->>> Tokens: { <5,OPERAND> <%,OPERATOR> <2,OPERAND> <^,OPERATOR> <4,OPERAND> }
->>> Result is: 5
+>>> Analisando "2 ** 3"
+>>> Inteiro mal formado na coluna (4)!
+"2 ** 3"
+    ^  
 ===============================================================================
->>> Parsing "(5 % 3) ^4"
->>> Expression SUCCESSFULLY parsed!
->>> Tokens: { <(,OPENING SCOPE> <5,OPERAND> <%,OPERATOR> <3,OPERAND> <),CLOSING SCOPE> <^,OPERATOR> <4,OPERAND> }
->>> Result is: 16
+>>> Analisando "%5 * 10"
+>>> Inteiro mal formado na coluna (1)!
+"%5 * 10"
+ ^      
 ===============================================================================
->>> Parsing "-----3"
->>> Expression SUCCESSFULLY parsed!
->>> Tokens: { <-3,OPERAND> }
->>> Result is: 
+>>> Analisando "*5 * 10"
+>>> Inteiro mal formado na coluna (1)!
+"*5 * 10"
+ ^      
+===============================================================================
+>>> Analisando "(2+3)*/(1-4)"
+>>> Inteiro mal formado na coluna (7)!
+"(2+3)*/(1-4)"
+       ^     
+===============================================================================
+>>> Analisando "(2+4)*4"
+>>> Expressão lida com sucesso!
+>>> Resultado: 24
+===============================================================================
+>>> Analisando "(4+5)"
+>>> Expressão lida com sucesso!
+>>> Resultado: 9
+===============================================================================
+>>> Analisando "9*3"
+>>> Expressão lida com sucesso!
+>>> Resultado: 27
+===============================================================================
+>>> Analisando "(4+5)*3"
+>>> Expressão lida com sucesso!
+>>> Resultado: 27
+===============================================================================
+>>> Analisando "   "
+>>> Final inesperado de expressão na coluna (3)!
+"   "
+   ^
+===============================================================================
+>>> Analisando "(4+5*4)"
+>>> Expressão lida com sucesso!
+>>> Resultado: 24
+===============================================================================
+>>> Analisando "((5^2))"
+>>> Expressão lida com sucesso!
+>>> Resultado: 25
+===============================================================================
+>>> Analisando "(4+4*5-12+24)"
+>>> Expressão lida com sucesso!
+>>> Resultado: 36
+===============================================================================
+>>> Analisando "(3+5^2)"
+>>> Expressão lida com sucesso!
+>>> Resultado: 28
+===============================================================================
+>>> Analisando "(4+4*5-12+24)*(3+5^2)"
+>>> Expressão lida com sucesso!
+>>> Resultado: 1008
+===============================================================================
+>>> Analisando "(4+4*5-12+24)*(3+5^2)/  20	"
+>>> Expressão lida com sucesso!
+>>> Resultado: 50
+===============================================================================
+>>> Analisando "10/(3*3^-2)"
+>>> Expressão lida com sucesso!
+>>> Divisão por zero!
 
->>> Normal parsing...
+>>> Fim de programa...

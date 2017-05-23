@@ -35,13 +35,13 @@ void print_msg_bares ( const Bares::Result & result)
     switch ( result.type_b )
     {
         case Bares::Result::DIVISION_BY_ZERO:
-            std::cout << ">>> Division by zero!\n";
+            std::cout << ">>> Divisão por zero!\n";
             break;
         case Bares::Result::NUMERIC_OVERFLOW:
-            std::cout << ">>> Numeric overflow error!\n";
+            std::cout << ">>> Erro de sobrecarga numérica!\n";
             break;
         default:
-            std::cout << ">>> Unhandled error found!\n";
+            std::cout << ">>> Erro sem tratamento!\n";
             break;
     }
 }
@@ -61,25 +61,25 @@ void print_msg( const Tokenizer::Result & result, std::string str )
     switch ( result.type )
     {
         case Tokenizer::Result::UNEXPECTED_END_OF_EXPRESSION:
-            std::cout << ">>> Unexpected end of input at column (" << result.at_col << ")!\n";
+            std::cout << ">>> Final inesperado de expressão na coluna (" << result.at_col << ")!\n";
             break;
         case Tokenizer::Result::ILL_FORMED_INTEGER:
-            std::cout << ">>> Ill formed integer at column (" << result.at_col << ")!\n";
+            std::cout << ">>> Inteiro mal formado na coluna (" << result.at_col << ")!\n";
             break;
         case Tokenizer::Result::MISSING_TERM:
-            std::cout << ">>> Missing <term> at column (" << result.at_col << ")!\n";
+            std::cout << ">>> Faltando <termo> na coluna (" << result.at_col << ")!\n";
             break;
         case Tokenizer::Result::EXTRANEOUS_SYMBOL:
-            std::cout << ">>> Extraneous symbol after valid expression found at column (" << result.at_col << ")!\n";
+            std::cout << ">>> Símbolo inesperado após expressão válida encontrado na coluna (" << result.at_col << ")!\n";
             break;
         case Tokenizer::Result::MISSING_CLOSING_PARENTHESIS:
-            std::cout << ">>> Missing closing \")\" at column (" << result.at_col << ")!\n";
+            std::cout << ">>> Faltando símbolo \")\" na coluna (" << result.at_col << ")!\n";
             break;
         case Tokenizer::Result::INTEGER_OUT_OF_RANGE:
-            std::cout << ">>> Integer constant out of range beginning at column (" << result.at_col << ")!\n";
+            std::cout << ">>> Constante inteira fora do intervalo começando na coluna (" << result.at_col << ")!\n";
             break;
         default:
-            std::cout << ">>> Unhandled error found!\n";
+            std::cout << ">>> Erro sem tratamento!\n";
             break;
     }
 
@@ -103,12 +103,6 @@ int main()
         expressions.push_back( aux );
     }
 
-    std::cout << "expressões lidas:\n ";
-    for ( auto i( expressions.begin() ); i != expressions.end(); i++)
-    {
-        std::cout << "' " << *i << " '" << std::endl;
-    }
-
     Tokenizer my_parser; // Instancia um parser.
     // Tentar analisar cada expressão da lista.
     for( const auto & expr : expressions )
@@ -117,12 +111,12 @@ int main()
         auto result = my_parser.parse( expr );
         // Preparar cabeçalho da saida.
         std::cout << std::setfill('=') << std::setw(80) << "\n";
-        std::cout << std::setfill(' ') << ">>> Parsing \"" << expr << "\"\n";
-        // Se deu pau, imprimir a mensagem adequada.
+        std::cout << std::setfill(' ') << ">>> Analisando \"" << expr << "\"\n";
+        // Se houver erro, imprimir a mensagem adequada.
         if ( result.type != Tokenizer::Result::OK )
             print_msg( result, expr );
         else{
-            std::cout << ">>> Expression SUCCESSFULLY parsed!\n";
+            std::cout << ">>> Expressão lida com sucesso!\n";
         
             // Recuperar a lista de tokens.
             auto lista = my_parser.get_tokens();
@@ -135,12 +129,12 @@ int main()
             if ( result_.type_b != Bares::Result::OK )
                 print_msg_bares( result_ );
             else
-                std::cout << ">>> Result is: " << result_.value_b << std::endl;
+                std::cout << ">>> Resultado: " << result_.value_b << std::endl;
         }
 
     }
 
-    std::cout << "\n>>> Normal parsing...\n";
+    std::cout << "\n>>> Fim de programa...\n";
 
     return EXIT_SUCCESS;
 }
